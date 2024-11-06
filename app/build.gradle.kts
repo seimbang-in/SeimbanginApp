@@ -31,13 +31,13 @@ android {
     flavorDimensions += "env"
     productFlavors {
         create("production") {
-            buildConfigField("String", "BASE_URl", "\"https://sinow-production.up.railway.app/api/v1/\"")
+            buildConfigField("String", "BASE_URl", "\"https://seimbangin.vercel.app/\"")
         }
         create("integration") {
-            buildConfigField("String", "BASE_URl", "\"https://sinow-production.up.railway.app/api/v1/\"")
+            buildConfigField("String", "BASE_URl", "\"https://seimbangin.vercel.app/\"")
         }
         create("mock") {
-            buildConfigField("String", "BASE_URl", "\"https://sinow-production.up.railway.app/api/v1/\"")
+            buildConfigField("String", "BASE_URl", "\"https://seimbangin.vercel.app/\"")
         }
     }
     compileOptions {
@@ -49,6 +49,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -62,6 +63,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.activity)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -69,6 +71,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.okhttp)
+    // chucker interceptor
+    debugImplementation(libs.library)
+    releaseImplementation(libs.library.no.op)
     // Koin for Android
     implementation(libs.koin.android)
     // data store
@@ -80,4 +85,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     // Coil image loader
     implementation(libs.coil)
+    // FancyToast
+    implementation(libs.fancytoast)
 }

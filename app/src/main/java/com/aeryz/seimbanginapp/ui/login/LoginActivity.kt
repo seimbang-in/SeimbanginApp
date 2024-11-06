@@ -1,0 +1,146 @@
+package com.aeryz.seimbanginapp.ui.login
+
+import android.content.Intent
+import android.os.Bundle
+import android.util.Patterns
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import com.aeryz.seimbanginapp.R
+import com.aeryz.seimbanginapp.databinding.ActivityLoginBinding
+import com.aeryz.seimbanginapp.ui.MainActivity
+import com.aeryz.seimbanginapp.utils.exception.ApiException
+import com.aeryz.seimbanginapp.utils.highLightWord
+import com.aeryz.seimbanginapp.utils.proceedWhen
+import com.shashank.sony.fancytoastlib.FancyToast
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
+class LoginActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityLoginBinding
+
+    private val viewModel: LoginViewModel by viewModel()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setOnClickListener()
+        observeLoginResult()
+        observeUserToken()
+    }
+
+    private fun setOnClickListener() {
+        binding.btnLogin.setOnClickListener {
+            doLogin()
+        }
+        binding.textNavigateToRegister.highLightWord(getString(R.string.text_register)) {
+            navigateToRegister()
+        }
+        binding.textForgotPassword.setOnClickListener {
+            navigateToForgotPassword()
+        }
+    }
+
+    private fun observeLoginResult() {
+        viewModel.loginResult.observe(this) { result ->
+            result.proceedWhen(
+                doOnSuccess = {
+                    binding.btnLogin.isVisible = true
+                    binding.pbLoading.isVisible = false
+                    it.payload?.loginData?.token?.let { token ->
+                        viewModel.saveToken(token)
+                    }
+                    navigateToHome()
+                },
+                doOnError = {
+                    binding.btnLogin.isVisible = true
+                    binding.pbLoading.isVisible = false
+                    if (it.exception is ApiException) {
+                        FancyToast.makeText(
+                            this,
+                            it.exception.getParsedError()?.message,
+                            FancyToast.LENGTH_LONG,
+                            FancyToast.ERROR,
+                            false
+                        ).show()
+                    }
+                },
+                doOnLoading = {
+                    binding.btnLogin.isVisible = false
+                    binding.pbLoading.isVisible = true
+                }
+            )
+        }
+    }
+
+    private fun observeUserToken() {
+        viewModel.userToken.observe(this) { token ->
+            if (token != null) navigateToHome()
+        }
+    }
+
+    private fun navigateToHome() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        startActivity(intent)
+    }
+
+    private fun navigateToForgotPassword() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        startActivity(intent)
+    }
+
+    private fun navigateToRegister() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        startActivity(intent)
+    }
+
+    private fun doLogin() {
+        if (isFormValid()) {
+            val email = binding.etEmail.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+            viewModel.login(email, password)
+        }
+    }
+
+    private fun isFormValid(): Boolean {
+        val email = binding.etEmail.text.toString().trim()
+        val password = binding.etPassword.text.toString().trim()
+        return checkEmailValidation(email) && checkPasswordValidation(password)
+    }
+
+    private fun checkEmailValidation(email: String): Boolean {
+        return if (email.isEmpty()) {
+            binding.tilEmail.isErrorEnabled = true
+            binding.tilEmail.error = getString(R.string.text_error_email_empty)
+            false
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.tilEmail.isErrorEnabled = true
+            binding.tilEmail.error = getString(R.string.text_error_email_invalid)
+            false
+        } else {
+            binding.tilEmail.isErrorEnabled = false
+            true
+        }
+    }
+
+    private fun checkPasswordValidation(password: String): Boolean {
+        return if (password.isEmpty()) {
+            binding.tilPassword.isErrorEnabled = true
+            binding.tilPassword.error = getString(R.string.text_error_password_empty)
+            false
+        } else if (password.length < 8) {
+            binding.tilPassword.isErrorEnabled = true
+            binding.tilPassword.error = getString(R.string.text_error_password_less_than_8_char)
+            false
+        } else {
+            binding.tilPassword.isErrorEnabled = false
+            true
+        }
+    }
+}

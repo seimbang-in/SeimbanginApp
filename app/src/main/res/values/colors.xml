@@ -1,10 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Primary Colors -->
+    <color name="primary_50">#eef1f7</color>
+    <color name="primary_100">#cbe7e5</color>
+    <color name="primary_200">#b2dcd8</color>
+    <color name="primary_300">#8eccc7</color>
+    <color name="primary_400">#79c1bc</color>
+    <color name="primary_500">#57b2ab</color>
+    <color name="primary_600">#4fa29c</color>
+    <color name="primary_700">#3e7e79</color>
+    <color name="primary_800">#30625e</color>
+    <color name="primary_900">#254b49</color>
+
+    <!-- Secondary Colors -->
+    <color name="secondary_50">#fff3e6</color>
+    <color name="secondary_100">#febdb1</color>
+    <color name="secondary_200">#fca8ab</color>
+    <color name="secondary_300">#feb156</color>
+    <color name="secondary_400">#fda235</color>
+    <color name="secondary_500">#fd8b03</color>
+    <color name="secondary_600">#e67e03</color>
+    <color name="secondary_700">#b46302</color>
+    <color name="secondary_800">#8b4c02</color>
+    <color name="secondary_900">#6a3a01</color>
+
+    <!-- Black Colors -->
+    <color name="black_50">#e6e6e6</color>
+    <color name="black_100">#b0b0b0</color>
+    <color name="black_200">#8a8a8a</color>
+    <color name="black_300">#545454</color>
+    <color name="black_400">#333333</color>
+    <color name="black_500">#000000</color>
+    <color name="black_600">#000000</color>
+    <color name="black_700">#000000</color>
+    <color name="black_800">#000000</color>
+    <color name="black_900">#000000</color>
+
+    <!-- White Colors -->
+    <color name="white_50">#ffffff</color>
+    <color name="white_100">#ffffff</color>
+    <color name="white_200">#ffffff</color>
+    <color name="white_300">#ffffff</color>
+    <color name="white_400">#ffffff</color>
+    <color name="white_500">#ffffff</color>
+    <color name="white_600">#e8e8e8</color>
+    <color name="white_700">#b5b5b5</color>
+    <color name="white_800">#8c8c8c</color>
+    <color name="white_900">#6b6b6b</color>
+
+    <!-- Success Colors -->
+    <color name="success_50">#f2f9f2</color>
+    <color name="success_100">#d6ebd6</color>
+    <color name="success_200">#c2e2c2</color>
+    <color name="success_300">#a6d4a6</color>
+    <color name="success_400">#95cc95</color>
+    <color name="success_500">#7abf7a</color>
+    <color name="success_600">#6fae6f</color>
+    <color name="success_700">#578857</color>
+    <color name="success_800">#436943</color>
+    <color name="success_900">#335033</color>
+
+    <!-- Error Colors -->
+    <color name="error_50">#fcf1f1</color>
+    <color name="error_100">#f7d4d4</color>
+    <color name="error_200">#f3bfbf</color>
+    <color name="error_300">#eea1a1</color>
+    <color name="error_400">#ea8f8f</color>
+    <color name="error_500">#e57373</color>
+    <color name="error_600">#d06969</color>
+    <color name="error_700">#a35252</color>
+    <color name="error_800">#7e3f3f</color>
+    <color name="error_900">#603030</color>
+
+    <!-- Background Colors -->
+    <color name="background_50">#efefef</color>
+    <color name="background_100">#f2f2f2</color>
+    <color name="background_200">#f5f5f5</color>
+    <color name="background_300">#f8f8f8</color>
+    <color name="background_400">#fafafa</color>
+    <color name="background_500">#fbfbfb</color>
+    <color name="background_600">#cccccc</color>
+    <color name="background_700">#b3b3b3</color>
+    <color name="background_800">#999999</color>
+    <color name="background_900">#808080</color>
+
+    <!-- Text Primary Colors -->
+    <color name="text_primary_50">#e6e6e6</color>
+    <color name="text_primary_100">#c9c9c9</color>
+    <color name="text_primary_200">#b2b2b2</color>
+    <color name="text_primary_300">#999999</color>
+    <color name="text_primary_400">#808080</color>
+    <color name="text_primary_500">#666666</color>
+    <color name="text_primary_600">#4d4d4d</color>
+    <color name="text_primary_700">#333333</color>
+    <color name="text_primary_800">#1a1a1a</color>
+    <color name="text_primary_900">#121212</color>
+
+    <!-- Text Secondary Colors -->
+    <color name="text_secondary_50">#f0f0f0</color>
+    <color name="text_secondary_100">#d9d9d9</color>
+    <color name="text_secondary_200">#c8c8c8</color>
+    <color name="text_secondary_300">#b7b7b7</color>
+    <color name="text_secondary_400">#a6a6a6</color>
+    <color name="text_secondary_500">#969696</color>
+    <color name="text_secondary_600">#858585</color>
+    <color name="text_secondary_700">#737373</color>
+    <color name="text_secondary_800">#626262</color>
+    <color name="text_secondary_900">#525252</color>
+
+    <!-- Accent Colors -->
+    <color name="accent_50">#fef8f5</color>
+    <color name="accent_100">#fbe8e0</color>
+    <color name="accent_200">#f9ddd1</color>
+    <color name="accent_300">#f7cdbc</color>
+    <color name="accent_400">#f5c4af</color>
+    <color name="accent_500">#f3b59b</color>
+    <color name="accent_600">#dda58d</color>
+    <color name="accent_700">#ad816e</color>
+    <color name="accent_800">#866455</color>
+    <color name="accent_900">#664c41</color>
+
+    <!-- Warning Colors -->
+    <color name="warning_50">#fff8f0</color>
+    <color name="warning_100">#ffe9d0</color>
+    <color name="warning_200">#ffafb9</color>
+    <color name="warning_300">#ffd098</color>
+    <color name="warning_400">#ffc785</color>
+    <color name="warning_500">#ffb966</color>
+    <color name="warning_600">#eBa85d</color>
+    <color name="warning_700">#b58348</color>
+    <color name="warning_800">#8c6638</color>
+    <color name="warning_900">#6b4e2b</color>
+
 </resources>
