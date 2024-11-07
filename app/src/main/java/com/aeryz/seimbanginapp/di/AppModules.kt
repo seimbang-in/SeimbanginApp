@@ -9,6 +9,7 @@ import com.aeryz.seimbanginapp.data.network.service.ApiConfig
 import com.aeryz.seimbanginapp.data.repository.AuthRepository
 import com.aeryz.seimbanginapp.data.repository.AuthRepositoryImpl
 import com.aeryz.seimbanginapp.ui.login.LoginViewModel
+import com.aeryz.seimbanginapp.ui.register.RegisterViewModel
 import com.aeryz.seimbanginapp.utils.PreferenceDataStoreHelper
 import com.aeryz.seimbanginapp.utils.PreferenceDataStoreHelperImpl
 import com.chuckerteam.chucker.api.ChuckerInterceptor
@@ -43,5 +44,6 @@ object AppModules {
 
     private val viewModelsModule = module {
         viewModel { LoginViewModel(get(), get()) }
+        viewModel { RegisterViewModel(get()) }
     }
 }
