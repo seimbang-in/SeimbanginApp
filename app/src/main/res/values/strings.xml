@@ -8,7 +8,7 @@
     <string name="text_error_password_less_than_8_char">Password length less than 8 character</string>
     <string name="text_error_password_empty">Password is empty!</string>
     <string name="text_register">Register</string>
-    <string name="text_login">LOGIN</string>
+    <string name="text_login">Login</string>
     <string name="text_login_to_continue_using_the_app">Login to continue using the app</string>
     <string name="text_email">Email</string>
     <string name="text_enter_your_email">Enter your email</string>
@@ -16,4 +16,17 @@
     <string name="text_enter_your_password">Enter your password</string>
     <string name="text_forgot_password">Forgot Password ?</string>
     <string name="text_don_t_have_account_register">Don\'t have account? Register</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_hint_full_name_empty">Full name is empty</string>
+    <string name="text_hint_user_name_empty">Username is empty</string>
+    <string name="text_error_password_not_match">Password is not the same</string>
+    <string name="text_already_have_an_account_login">Already have an account ? Login</string>
+    <string name="text_create_account_to_continue">Create account to continue</string>
+    <string name="text_full_name">Full Name</string>
+    <string name="text_enter_your_full_name">Enter your full name</string>
+    <string name="text_username">Username</string>
+    <string name="text_enter_your_username">Enter your username</string>
+    <string name="text_next">Next</string>
+    <string name="text_confirm_password">Confirm Password</string>
 </resources>

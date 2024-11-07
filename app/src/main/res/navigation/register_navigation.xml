@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/register_navigation"
+    app:startDestination="@id/firstRegisterFragment">
+
+    <fragment
+        android:id="@+id/firstRegisterFragment"
+        android:name="com.aeryz.seimbanginapp.ui.register.fragment.FirstRegisterFragment"
+        android:label="fragment_first_register"
+        tools:layout="@layout/fragment_first_register">
+        <action
+            android:id="@+id/action_firstRegisterFragment_to_secondRegisterFragment"
+            app:destination="@id/secondRegisterFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/secondRegisterFragment"
+        android:name="com.aeryz.seimbanginapp.ui.register.fragment.SecondRegisterFragment"
+        android:label="fragment_second_register"
+        tools:layout="@layout/fragment_second_register">
+        <argument
+            android:name="fullName"
+            app:argType="string" />
+        <argument
+            android:name="userName"
+            app:argType="string" />
+    </fragment>
+</navigation>

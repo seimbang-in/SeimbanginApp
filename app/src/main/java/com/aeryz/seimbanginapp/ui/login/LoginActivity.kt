@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.databinding.ActivityLoginBinding
 import com.aeryz.seimbanginapp.ui.MainActivity
+import com.aeryz.seimbanginapp.ui.register.RegisterActivity
 import com.aeryz.seimbanginapp.utils.exception.ApiException
 import com.aeryz.seimbanginapp.utils.highLightWord
 import com.aeryz.seimbanginapp.utils.proceedWhen
@@ -94,7 +95,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToRegister() {
-        val intent = Intent(this, MainActivity::class.java).apply {
+        val intent = Intent(this, RegisterActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         startActivity(intent)
