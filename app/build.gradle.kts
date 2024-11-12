@@ -87,4 +87,6 @@ dependencies {
     implementation(libs.coil)
     // FancyToast
     implementation(libs.fancytoast)
+    //uCrop
+    implementation (libs.ucrop)
 }
