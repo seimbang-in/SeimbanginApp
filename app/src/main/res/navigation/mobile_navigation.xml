@@ -18,8 +18,25 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.aeryz.seimbanginapp.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_profile"
+        android:name="com.aeryz.seimbanginapp.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_financialProfileActivity"
+            app:destination="@id/financialProfileActivity" />
+        <action
+            android:id="@+id/action_navigation_profile_to_editProfileActivity"
+            app:destination="@id/editProfileActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/financialProfileActivity"
+        android:name="com.aeryz.seimbanginapp.ui.financialProfile.FinancialProfileActivity"
+        android:label="activity_financial_profile"
+        tools:layout="@layout/activity_financial_profile" />
+    <activity
+        android:id="@+id/editProfileActivity"
+        android:name="com.aeryz.seimbanginapp.ui.editProfile.EditProfileActivity"
+        android:label="activity_edit_profile"
+        tools:layout="@layout/activity_edit_profile" />
 </navigation>

@@ -29,4 +29,35 @@
     <string name="text_enter_your_username">Enter your username</string>
     <string name="text_next">Next</string>
     <string name="text_confirm_password">Confirm Password</string>
+    <string name="title_profile">Profile</string>
+    <string name="text_edit_profile">Edit Profile</string>
+    <string name="text_financial_profile">Financial Profile</string>
+    <string name="text_setting">Setting</string>
+    <string name="text_log_out">Log out</string>
+    <string name="text_version">Version 1.1.0</string>
+    <string name="text_update">Update</string>
+    <string name="text_upload_photo">Upload Photo</string>
+    <string name="text_monthly_income">Monthly Income</string>
+    <string name="text_enter_your_monthly_income">Enter your monthly income</string>
+    <string name="text_current_savings">Current Savings</string>
+    <string name="text_enter_your_current_savings">Enter your current savings</string>
+    <string name="text_debt">Debt</string>
+    <string name="text_enter_your_debt">Enter your debt</string>
+    <string name="text_financial_goals">Financial Goals</string>
+    <string name="text_enter_your_financial_goals">Enter your financial goals</string>
+    <string name="text_risk_management">Risk Management</string>
+    <string name="text_enter_your_risk_management">Enter your risk management</string>
+    <string name="text_update_profile_image_success">Update profile image success</string>
+    <string name="text_update_profile_success">Update profile success</string>
+    <string name="text_update_financial_profile_success">Update financial profile success</string>
+    <string name="text_input_valid_number">Input valid number</string>
+    <string name="text_monthly_income_still_empty">Monthly income still empty</string>
+    <string name="text_current_savings_still_empty">Current savings still empty</string>
+    <string name="text_debt_still_empty">Debt still empty</string>
+    <string name="text_financial_goals_still_empty">Financial goals still empty</string>
+    <string-array name="risk_management_types">
+        <item>LOW</item>
+        <item>MEDIUM</item>
+        <item>HIGH</item>
+    </string-array>
 </resources>

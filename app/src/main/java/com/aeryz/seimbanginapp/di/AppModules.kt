@@ -8,8 +8,11 @@ import com.aeryz.seimbanginapp.data.network.datasource.SeimbanginDataSourceImpl
 import com.aeryz.seimbanginapp.data.network.service.ApiConfig
 import com.aeryz.seimbanginapp.data.repository.AuthRepository
 import com.aeryz.seimbanginapp.data.repository.AuthRepositoryImpl
+import com.aeryz.seimbanginapp.ui.editProfile.EditProfileViewModel
+import com.aeryz.seimbanginapp.ui.financialProfile.FinancialProfileViewModel
 import com.aeryz.seimbanginapp.ui.home.HomeViewModel
 import com.aeryz.seimbanginapp.ui.login.LoginViewModel
+import com.aeryz.seimbanginapp.ui.profile.ProfileViewModel
 import com.aeryz.seimbanginapp.ui.register.RegisterViewModel
 import com.aeryz.seimbanginapp.ui.splash.SplashViewModel
 import com.aeryz.seimbanginapp.utils.PreferenceDataStoreHelper
@@ -30,7 +33,7 @@ object AppModules {
 
     private val networkModule = module {
         single { ChuckerInterceptor(androidContext()) }
-        single { ApiConfig.getApiService(get()) }
+        single { ApiConfig.getApiService(get(), get()) }
     }
 
     private val dataSourceModule = module {
@@ -49,5 +52,8 @@ object AppModules {
         viewModel { RegisterViewModel(get()) }
         viewModel { SplashViewModel(get()) }
         viewModel { HomeViewModel(get()) }
+        viewModel { ProfileViewModel(get(), get()) }
+        viewModel { FinancialProfileViewModel(get()) }
+        viewModel { EditProfileViewModel(get()) }
     }
 }
