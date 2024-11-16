@@ -1,5 +1,8 @@
 package com.aeryz.seimbanginapp.data.network.datasource
 
+import com.aeryz.seimbanginapp.data.network.model.createTransaction.CreateTransactionRequest
+import com.aeryz.seimbanginapp.data.network.model.createTransaction.CreateTransactionResponse
+import com.aeryz.seimbanginapp.data.network.model.deleteTransaction.DeleteTransactionResponse
 import com.aeryz.seimbanginapp.data.network.model.editProfile.EditProfileRequest
 import com.aeryz.seimbanginapp.data.network.model.editProfile.EditProfileResponse
 import com.aeryz.seimbanginapp.data.network.model.financialProfile.FinancialProfileRequest
@@ -9,6 +12,7 @@ import com.aeryz.seimbanginapp.data.network.model.login.LoginResponse
 import com.aeryz.seimbanginapp.data.network.model.profile.ProfileResponse
 import com.aeryz.seimbanginapp.data.network.model.register.RegisterRequest
 import com.aeryz.seimbanginapp.data.network.model.register.RegisterResponse
+import com.aeryz.seimbanginapp.data.network.model.transactionHistory.TransactionHistoryResponse
 import com.aeryz.seimbanginapp.data.network.model.uploadProfileImage.UploadProfileImageResponse
 import com.aeryz.seimbanginapp.data.network.service.ApiService
 import okhttp3.MultipartBody
@@ -20,6 +24,9 @@ interface SeimbanginDataSource {
     suspend fun updateFinancialProfile(financialProfileRequest: FinancialProfileRequest): FinancialProfileResponse
     suspend fun editProfile(editProfileRequest: EditProfileRequest): EditProfileResponse
     suspend fun uploadProfileImage(image: MultipartBody.Part): UploadProfileImageResponse
+    suspend fun createTransaction(createTransactionRequest: CreateTransactionRequest): CreateTransactionResponse
+    suspend fun getTransactionHistory(limit: Int?, page: Int?): TransactionHistoryResponse
+    suspend fun deleteTransaction(id: Int?): DeleteTransactionResponse
 }
 
 class SeimbanginDataSourceImpl(private val service: ApiService) : SeimbanginDataSource {
@@ -45,6 +52,18 @@ class SeimbanginDataSourceImpl(private val service: ApiService) : SeimbanginData
 
     override suspend fun uploadProfileImage(image: MultipartBody.Part): UploadProfileImageResponse {
         return service.uploadProfileImage(image)
+    }
+
+    override suspend fun createTransaction(createTransactionRequest: CreateTransactionRequest): CreateTransactionResponse {
+        return service.createTransaction(createTransactionRequest)
+    }
+
+    override suspend fun getTransactionHistory(limit: Int?, page: Int?): TransactionHistoryResponse {
+        return service.getTransactionHistory(limit, page)
+    }
+
+    override suspend fun deleteTransaction(id: Int?): DeleteTransactionResponse {
+        return service.deleteTransaction(id)
     }
 
 }

@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.aeryz.seimbanginapp.databinding.FragmentHomeBinding
-import com.aeryz.seimbanginapp.ui.login.LoginActivity
+import com.aeryz.seimbanginapp.ui.transaction.createTransaction.CreateTransactionActivity
+import com.aeryz.seimbanginapp.ui.transaction.transactionHistory.TransactionHistoryActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -40,16 +40,21 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnLogout.setOnClickListener {
-            viewModel.doLogout()
-            navigateToLogin()
+        binding.btnCreateTransaction.setOnClickListener {
+            navigateToCreateTransaction()
+        }
+        binding.btnTransactionHistory.setOnClickListener {
+            navigateToTransactionHistory()
         }
     }
 
-    private fun navigateToLogin() {
-        val intent = Intent(requireContext(), LoginActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        }
+    private fun navigateToCreateTransaction() {
+        val intent = Intent(requireContext(), CreateTransactionActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun navigateToTransactionHistory() {
+        val intent = Intent(requireContext(), TransactionHistoryActivity::class.java)
         startActivity(intent)
     }
 
