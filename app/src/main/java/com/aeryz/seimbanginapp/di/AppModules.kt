@@ -57,7 +57,7 @@ object AppModules {
         viewModel { LoginViewModel(get(), get()) }
         viewModel { RegisterViewModel(get()) }
         viewModel { SplashViewModel(get()) }
-        viewModel { HomeViewModel(get()) }
+        viewModel { HomeViewModel(get(), get()) }
         viewModel { ProfileViewModel(get(), get()) }
         viewModel { FinancialProfileViewModel(get()) }
         viewModel { EditProfileViewModel(get()) }

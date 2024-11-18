@@ -10,14 +10,10 @@ fun capitalizeFirstChar(text: String?): String {
 
 fun formatAmount(amount: String?, type: Int?): String {
     if (amount.isNullOrBlank() || type == null) return ""
-    val formattedAmount = try {
-        NumberFormat.getNumberInstance(Locale.getDefault()).format(amount.toDouble())
-    } catch (e: NumberFormatException) {
-        return ""
-    }
+    val formattedAmount = withCurrencyFormat(amount)
     return when (type) {
-        0 -> "+ Rp $formattedAmount"
-        else -> "- Rp $formattedAmount"
+        0 -> "+ $formattedAmount"
+        else -> "- $formattedAmount"
     }
 }
 
@@ -26,4 +22,11 @@ fun withDateFormat(inputDate: String): String {
     val date = oldFormat.parse(inputDate)
     val newFormat = SimpleDateFormat("dd/MM/yyyy, HH:mm:ss", Locale.getDefault())
     return newFormat.format(date ?: "")
+}
+
+fun withCurrencyFormat(strPrice: String?): String {
+    if (strPrice.isNullOrBlank()) return ""
+    val doublePrice = strPrice.toDouble()
+    val mCurrencyFormat = NumberFormat.getCurrencyInstance()
+    return mCurrencyFormat.format(doublePrice)
 }
