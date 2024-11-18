@@ -89,6 +89,11 @@
     <string name="text_others">Others</string>
     <string name="text_create_transaction_success">Create Transaction Success</string>
     <string name="text_transaction_still_empty">Transaction still empty</string>
+    <string name="text_hi_user">Hi, %1$s</string>
+    <string name="text_greeting_user">How are you today ?</string>
+    <string name="text_total_balance">Total Balance</string>
+    <string name="text_transaction_history">Transaction History</string>
+    <string name="text_see_all">See All</string>
     <string-array name="risk_management_types">
         <item>LOW</item>
         <item>MEDIUM</item>
