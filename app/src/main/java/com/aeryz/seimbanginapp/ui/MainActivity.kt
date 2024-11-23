@@ -1,14 +1,14 @@
 package com.aeryz.seimbanginapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.databinding.ActivityMainBinding
+import com.aeryz.seimbanginapp.ui.chatAi.ChatAiActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,5 +32,10 @@ class MainActivity : AppCompatActivity() {
 //        )
 //        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        binding.fabAskAi.setOnClickListener {
+            val intent = Intent(this, ChatAiActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

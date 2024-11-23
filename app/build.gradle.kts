@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -89,4 +90,6 @@ dependencies {
     implementation(libs.fancytoast)
     //uCrop
     implementation (libs.ucrop)
+    // Google AI client SDK for Android
+    implementation(libs.generativeai)
 }
