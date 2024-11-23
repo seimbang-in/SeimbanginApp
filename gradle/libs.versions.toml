@@ -4,6 +4,7 @@ coil = "2.7.0"
 datastorePreferences = "1.1.1"
 fancytoast = "2.0.2"
 fragmentKtx = "1.8.5"
+generativeai = "0.9.0"
 koinAndroid = "3.5.0"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
@@ -31,6 +32,7 @@ androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 fancytoast = { module = "io.github.shashank02051997:FancyToast", version.ref = "fancytoast" }
+generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

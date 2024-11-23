@@ -10,6 +10,8 @@ import com.aeryz.seimbanginapp.data.repository.AuthRepository
 import com.aeryz.seimbanginapp.data.repository.AuthRepositoryImpl
 import com.aeryz.seimbanginapp.data.repository.TransactionRepository
 import com.aeryz.seimbanginapp.data.repository.TransactionRepositoryImpl
+import com.aeryz.seimbanginapp.data.repository.ChatAiRepository
+import com.aeryz.seimbanginapp.ui.chatAi.ChatAiViewModel
 import com.aeryz.seimbanginapp.ui.transaction.createTransaction.CreateTransactionViewModel
 import com.aeryz.seimbanginapp.ui.editProfile.EditProfileViewModel
 import com.aeryz.seimbanginapp.ui.financialProfile.FinancialProfileViewModel
@@ -18,7 +20,6 @@ import com.aeryz.seimbanginapp.ui.login.LoginViewModel
 import com.aeryz.seimbanginapp.ui.profile.ProfileViewModel
 import com.aeryz.seimbanginapp.ui.register.RegisterViewModel
 import com.aeryz.seimbanginapp.ui.splash.SplashViewModel
-import com.aeryz.seimbanginapp.ui.transaction.transactionDetail.TransactionDetailViewModel
 import com.aeryz.seimbanginapp.ui.transaction.transactionHistory.TransactionHistoryViewModel
 import com.aeryz.seimbanginapp.utils.PreferenceDataStoreHelper
 import com.aeryz.seimbanginapp.utils.PreferenceDataStoreHelperImpl
@@ -51,6 +52,7 @@ object AppModules {
     private val repositoryModule = module {
         single<AuthRepository> { AuthRepositoryImpl(get()) }
         single<TransactionRepository> { TransactionRepositoryImpl(get()) }
+        single{ ChatAiRepository() }
     }
 
     private val viewModelsModule = module {
@@ -63,7 +65,7 @@ object AppModules {
         viewModel { EditProfileViewModel(get()) }
         viewModel { CreateTransactionViewModel(get()) }
         viewModel { TransactionHistoryViewModel(get()) }
-        viewModel { TransactionDetailViewModel(get()) }
+        viewModel { ChatAiViewModel(get()) }
 
     }
 }

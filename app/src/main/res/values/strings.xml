@@ -94,6 +94,8 @@
     <string name="text_total_balance">Total Balance</string>
     <string name="text_transaction_history">Transaction History</string>
     <string name="text_see_all">See All</string>
+    <string name="text_ask_to_ai">Ask to AI</string>
+    <string name="text_ask_anything_to_ai">Ask anything to AI</string>
     <string-array name="risk_management_types">
         <item>LOW</item>
         <item>MEDIUM</item>
