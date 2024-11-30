@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,6 +47,7 @@ class HomeFragment : Fragment() {
         getTransactionHistory()
         observeTransactionHistory()
         setOnClickListener()
+        observeInsertTransactionToDatabase()
     }
 
     override fun onResume() {
@@ -53,6 +55,7 @@ class HomeFragment : Fragment() {
         getProfileData()
         getTransactionHistory()
     }
+
     private fun getProfileData() {
         viewModel.getProfileData()
     }
@@ -105,7 +108,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getTransactionHistory() {
-        viewModel.getTransactionHistory(viewModel.currentLimit, viewModel.currentPage)
+        viewModel.getTransactionHistory(null, null)
     }
 
     private fun observeTransactionHistory() {
@@ -118,9 +121,10 @@ class HomeFragment : Fragment() {
                     binding.rvTransactionList.isVisible = true
                     it.payload?.let { response ->
                         response.data?.let { data ->
-                            setupRecyclerView(
-                                data.toTransactionItemList()
-                                    .sortedByDescending { item -> item.createdAt })
+                            val sortedData = data.toTransactionItemList()
+                                .sortedByDescending { item -> item.createdAt }
+                            setupRecyclerView(sortedData.take(5))
+                            viewModel.insertListToDatabase(sortedData)
                         }
                     }
                 },
@@ -146,6 +150,20 @@ class HomeFragment : Fragment() {
                     binding.rvTransactionList.isVisible = false
                     binding.contentState.tvError.text =
                         getString(R.string.text_transaction_still_empty)
+                }
+            )
+        }
+    }
+
+    private fun observeInsertTransactionToDatabase() {
+        viewModel.insertListToDatabaseResult.observe(viewLifecycleOwner) { result ->
+            result.proceedWhen(
+                doOnSuccess = {
+                    Toast.makeText(
+                        requireContext(),
+                        "Update Local Transaction Success",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             )
         }

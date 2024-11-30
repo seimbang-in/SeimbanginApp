@@ -4,6 +4,7 @@ plugins {
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -92,4 +93,12 @@ dependencies {
     implementation (libs.ucrop)
     // Google AI client SDK for Android
     implementation(libs.generativeai)
+    // room database
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.room.compiler)
+    // viewpager2
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    // MPAndroid Chart
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

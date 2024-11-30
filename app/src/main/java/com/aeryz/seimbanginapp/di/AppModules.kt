@@ -1,5 +1,6 @@
 package com.aeryz.seimbanginapp.di
 
+import com.aeryz.seimbanginapp.data.local.database.TransactionDatabase
 import com.aeryz.seimbanginapp.data.local.datastore.UserPreferenceDataSource
 import com.aeryz.seimbanginapp.data.local.datastore.UserPreferenceDataSourceImpl
 import com.aeryz.seimbanginapp.data.local.datastore.appDataStore
@@ -11,7 +12,10 @@ import com.aeryz.seimbanginapp.data.repository.AuthRepositoryImpl
 import com.aeryz.seimbanginapp.data.repository.TransactionRepository
 import com.aeryz.seimbanginapp.data.repository.TransactionRepositoryImpl
 import com.aeryz.seimbanginapp.data.repository.ChatAiRepository
+import com.aeryz.seimbanginapp.data.repository.LocalTransactionRepository
+import com.aeryz.seimbanginapp.data.repository.LocalTransactionRepositoryImpl
 import com.aeryz.seimbanginapp.ui.chatAi.ChatAiViewModel
+import com.aeryz.seimbanginapp.ui.dashboard.DashboardViewModel
 import com.aeryz.seimbanginapp.ui.transaction.createTransaction.CreateTransactionViewModel
 import com.aeryz.seimbanginapp.ui.editProfile.EditProfileViewModel
 import com.aeryz.seimbanginapp.ui.financialProfile.FinancialProfileViewModel
@@ -20,6 +24,7 @@ import com.aeryz.seimbanginapp.ui.login.LoginViewModel
 import com.aeryz.seimbanginapp.ui.profile.ProfileViewModel
 import com.aeryz.seimbanginapp.ui.register.RegisterViewModel
 import com.aeryz.seimbanginapp.ui.splash.SplashViewModel
+import com.aeryz.seimbanginapp.ui.transaction.transactionDetail.TransactionDetailViewModel
 import com.aeryz.seimbanginapp.ui.transaction.transactionHistory.TransactionHistoryViewModel
 import com.aeryz.seimbanginapp.utils.PreferenceDataStoreHelper
 import com.aeryz.seimbanginapp.utils.PreferenceDataStoreHelperImpl
@@ -31,11 +36,20 @@ import org.koin.dsl.module
 
 object AppModules {
     fun getModules(): List<Module> = listOf(
+        localModule,
         viewModelsModule,
         networkModule,
         dataSourceModule,
         repositoryModule
     )
+
+    private val localModule = module {
+        single { TransactionDatabase.getDatabase(androidContext()) }
+        single { get<TransactionDatabase>().transactionDao() }
+        single { androidContext().appDataStore }
+        single<PreferenceDataStoreHelper> { PreferenceDataStoreHelperImpl(get()) }
+        single<UserPreferenceDataSource> { UserPreferenceDataSourceImpl(get()) }
+    }
 
     private val networkModule = module {
         single { ChuckerInterceptor(androidContext()) }
@@ -43,29 +57,28 @@ object AppModules {
     }
 
     private val dataSourceModule = module {
-        single { androidContext().appDataStore }
         single<SeimbanginDataSource> { SeimbanginDataSourceImpl(get()) }
-        single<PreferenceDataStoreHelper> { PreferenceDataStoreHelperImpl(get()) }
-        single<UserPreferenceDataSource> { UserPreferenceDataSourceImpl(get()) }
     }
 
     private val repositoryModule = module {
         single<AuthRepository> { AuthRepositoryImpl(get()) }
         single<TransactionRepository> { TransactionRepositoryImpl(get()) }
         single{ ChatAiRepository() }
+        single<LocalTransactionRepository> { LocalTransactionRepositoryImpl(get()) }
     }
 
     private val viewModelsModule = module {
         viewModel { LoginViewModel(get(), get()) }
         viewModel { RegisterViewModel(get()) }
         viewModel { SplashViewModel(get()) }
-        viewModel { HomeViewModel(get(), get()) }
+        viewModel { HomeViewModel(get(), get(), get()) }
         viewModel { ProfileViewModel(get(), get()) }
         viewModel { FinancialProfileViewModel(get()) }
         viewModel { EditProfileViewModel(get()) }
         viewModel { CreateTransactionViewModel(get()) }
         viewModel { TransactionHistoryViewModel(get()) }
+        viewModel { TransactionDetailViewModel(get(), get()) }
         viewModel { ChatAiViewModel(get()) }
-
+        viewModel { DashboardViewModel(get()) }
     }
 }
