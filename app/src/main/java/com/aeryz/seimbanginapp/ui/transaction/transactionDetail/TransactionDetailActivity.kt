@@ -73,9 +73,10 @@ class TransactionDetailActivity : AppCompatActivity() {
 
     private fun navigateToTransactionHistory() {
         val intent = Intent(this, TransactionHistoryActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
         startActivity(intent)
+        finish()
     }
 
     private fun setupToolBar() {
@@ -131,6 +132,7 @@ class TransactionDetailActivity : AppCompatActivity() {
                 getString(R.string.text_yes)
             ) { _, _ ->
                 viewModel.deleteTransaction(id)
+                viewModel.deleteTransactionFromDb(id)
             }
             .setNegativeButton(
                 getString(R.string.text_no)

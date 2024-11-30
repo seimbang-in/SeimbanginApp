@@ -96,6 +96,11 @@
     <string name="text_see_all">See All</string>
     <string name="text_ask_to_ai">Ask to AI</string>
     <string name="text_ask_anything_to_ai">Ask anything to AI</string>
+    <string name="outcome">Outcome</string>
+    <string name="text_last_income_transaction">Last Income Transaction</string>
+    <string name="text_total_income">Total Income</string>
+    <string name="text_total_outcome">Total Outcome</string>
+    <string name="text_last_outcome_transaction">Last Outcome Transaction</string>
     <string-array name="risk_management_types">
         <item>LOW</item>
         <item>MEDIUM</item>
