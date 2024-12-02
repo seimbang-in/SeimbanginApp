@@ -13,6 +13,7 @@ import coil.transform.CircleCropTransformation
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.databinding.FragmentProfileBinding
 import com.aeryz.seimbanginapp.ui.login.LoginActivity
+import com.aeryz.seimbanginapp.ui.settings.SettingFragment
 import com.aeryz.seimbanginapp.utils.exception.ApiException
 import com.aeryz.seimbanginapp.utils.proceedWhen
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -52,6 +53,9 @@ class ProfileFragment : Fragment() {
         }
         binding.tvEditProfile.setOnClickListener {
             navigateToEditProfile()
+        }
+        binding.tvSetting.setOnClickListener {
+            SettingFragment().show(childFragmentManager, null)
         }
     }
 

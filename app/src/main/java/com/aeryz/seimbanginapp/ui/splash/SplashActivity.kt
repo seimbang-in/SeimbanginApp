@@ -2,17 +2,12 @@ package com.aeryz.seimbanginapp.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.databinding.ActivitySplashBinding
-import com.aeryz.seimbanginapp.ui.MainActivity
 import com.aeryz.seimbanginapp.ui.login.LoginActivity
-import kotlinx.coroutines.delay
+import com.aeryz.seimbanginapp.ui.main.MainActivity
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,7 +28,19 @@ class SplashActivity : AppCompatActivity() {
 
     private fun checkIfUserLogin() {
         viewModel.isUserLoggedIn.observe(this) { token ->
-            if (token.isNullOrEmpty()) navigateToLogin() else navigateToMain()
+            if (token.isNullOrEmpty()) {
+                navigateToLogin()
+            } else {
+                viewModel.tokenExpiresTime.observe(this) { expiresTime ->
+                    val currentTime = System.currentTimeMillis()
+                    if (currentTime >= expiresTime) {
+                        viewModel.deleteToken()
+                        viewModel.deleteTokenExpires()
+                    } else {
+                        navigateToMain()
+                    }
+                }
+            }
         }
     }
 

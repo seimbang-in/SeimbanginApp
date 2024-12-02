@@ -159,11 +159,11 @@ class HomeFragment : Fragment() {
         viewModel.insertListToDatabaseResult.observe(viewLifecycleOwner) { result ->
             result.proceedWhen(
                 doOnSuccess = {
-                    Toast.makeText(
-                        requireContext(),
-                        "Update Local Transaction Success",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        requireContext(),
+//                        "Update Local Transaction Success",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                 }
             )
         }

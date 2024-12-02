@@ -52,7 +52,7 @@
             android:name=".ui.financialProfile.FinancialProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="false" />
     </application>
 

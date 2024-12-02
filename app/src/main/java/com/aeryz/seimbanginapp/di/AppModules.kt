@@ -9,21 +9,22 @@ import com.aeryz.seimbanginapp.data.network.datasource.SeimbanginDataSourceImpl
 import com.aeryz.seimbanginapp.data.network.service.ApiConfig
 import com.aeryz.seimbanginapp.data.repository.AuthRepository
 import com.aeryz.seimbanginapp.data.repository.AuthRepositoryImpl
-import com.aeryz.seimbanginapp.data.repository.TransactionRepository
-import com.aeryz.seimbanginapp.data.repository.TransactionRepositoryImpl
 import com.aeryz.seimbanginapp.data.repository.ChatAiRepository
 import com.aeryz.seimbanginapp.data.repository.LocalTransactionRepository
 import com.aeryz.seimbanginapp.data.repository.LocalTransactionRepositoryImpl
+import com.aeryz.seimbanginapp.data.repository.TransactionRepository
+import com.aeryz.seimbanginapp.data.repository.TransactionRepositoryImpl
 import com.aeryz.seimbanginapp.ui.chatAi.ChatAiViewModel
 import com.aeryz.seimbanginapp.ui.dashboard.DashboardViewModel
-import com.aeryz.seimbanginapp.ui.transaction.createTransaction.CreateTransactionViewModel
 import com.aeryz.seimbanginapp.ui.editProfile.EditProfileViewModel
 import com.aeryz.seimbanginapp.ui.financialProfile.FinancialProfileViewModel
 import com.aeryz.seimbanginapp.ui.home.HomeViewModel
 import com.aeryz.seimbanginapp.ui.login.LoginViewModel
+import com.aeryz.seimbanginapp.ui.main.MainViewModel
 import com.aeryz.seimbanginapp.ui.profile.ProfileViewModel
 import com.aeryz.seimbanginapp.ui.register.RegisterViewModel
 import com.aeryz.seimbanginapp.ui.splash.SplashViewModel
+import com.aeryz.seimbanginapp.ui.transaction.createTransaction.CreateTransactionViewModel
 import com.aeryz.seimbanginapp.ui.transaction.transactionDetail.TransactionDetailViewModel
 import com.aeryz.seimbanginapp.ui.transaction.transactionHistory.TransactionHistoryViewModel
 import com.aeryz.seimbanginapp.utils.PreferenceDataStoreHelper
@@ -80,5 +81,6 @@ object AppModules {
         viewModel { TransactionDetailViewModel(get(), get()) }
         viewModel { ChatAiViewModel(get()) }
         viewModel { DashboardViewModel(get()) }
+        viewModel { MainViewModel(get()) }
     }
 }

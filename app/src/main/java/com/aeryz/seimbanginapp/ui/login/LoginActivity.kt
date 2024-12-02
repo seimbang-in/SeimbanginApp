@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.databinding.ActivityLoginBinding
-import com.aeryz.seimbanginapp.ui.MainActivity
+import com.aeryz.seimbanginapp.ui.main.MainActivity
 import com.aeryz.seimbanginapp.ui.register.RegisterActivity
 import com.aeryz.seimbanginapp.utils.exception.ApiException
 import com.aeryz.seimbanginapp.utils.highLightWord
@@ -37,9 +37,6 @@ class LoginActivity : AppCompatActivity() {
         binding.textNavigateToRegister.highLightWord(getString(R.string.text_register)) {
             navigateToRegister()
         }
-        binding.textForgotPassword.setOnClickListener {
-            navigateToForgotPassword()
-        }
     }
 
     private fun observeLoginResult() {
@@ -50,6 +47,11 @@ class LoginActivity : AppCompatActivity() {
                     binding.pbLoading.isVisible = false
                     it.payload?.loginData?.token?.let { token ->
                         viewModel.saveToken(token)
+                    }
+                    it.payload?.loginData?.expiresIn?.let { expiresIn ->
+                        val currentTime = System.currentTimeMillis()
+                        val expiresTime = currentTime + (expiresIn * 1000)
+                        viewModel.saveTokenExpiresTime(expiresTime)
                     }
                     navigateToHome()
                 },
@@ -85,13 +87,7 @@ class LoginActivity : AppCompatActivity() {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         startActivity(intent)
-    }
-
-    private fun navigateToForgotPassword() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
-        startActivity(intent)
+        finish()
     }
 
     private fun navigateToRegister() {
