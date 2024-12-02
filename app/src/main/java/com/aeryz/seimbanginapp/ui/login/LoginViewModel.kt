@@ -37,6 +37,12 @@ class LoginViewModel(
         }
     }
 
+    fun saveTokenExpiresTime(expiresTime: Long) {
+        viewModelScope.launch {
+            userPreferenceDataSource.saveTokenExpires(expiresTime)
+        }
+    }
+
     init {
         viewModelScope.launch {
             userPreferenceDataSource.getUserTokenFlow()

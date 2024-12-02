@@ -101,6 +101,8 @@
     <string name="text_total_income">Total Income</string>
     <string name="text_total_outcome">Total Outcome</string>
     <string name="text_last_outcome_transaction">Last Outcome Transaction</string>
+    <string name="text_dark_mode">Dark Mode</string>
+    <string name="text_language">Language</string>
     <string-array name="risk_management_types">
         <item>LOW</item>
         <item>MEDIUM</item>

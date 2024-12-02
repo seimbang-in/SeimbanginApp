@@ -1,6 +1,7 @@
 package com.aeryz.seimbanginapp.data.local.datastore
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.aeryz.seimbanginapp.utils.PreferenceDataStoreHelper
 import kotlinx.coroutines.flow.Flow
@@ -8,6 +9,9 @@ import kotlinx.coroutines.flow.Flow
 interface UserPreferenceDataSource {
     suspend fun saveUserToken(token: String)
     fun getUserTokenFlow(): Flow<String>
+    suspend fun saveTokenExpires(expiresTime: Long)
+    fun getTokenExpires(): Flow<Long>
+    suspend fun deleteTokenExpires()
     suspend fun getUserToken(): String
     suspend fun deleteToken()
     suspend fun getUserDarkModePref(): Boolean
@@ -22,6 +26,18 @@ class UserPreferenceDataSourceImpl(private val preferenceHelper: PreferenceDataS
 
     override suspend fun saveUserToken(token: String) {
         return preferenceHelper.putPreference(PREF_USER_TOKEN, token)
+    }
+
+    override suspend fun saveTokenExpires(expiresTime: Long) {
+        return preferenceHelper.putPreference(PREF_TOKEN_EXPIRES, expiresTime)
+    }
+
+    override fun getTokenExpires(): Flow<Long> {
+        return preferenceHelper.getPreference(PREF_TOKEN_EXPIRES, 0)
+    }
+
+    override suspend fun deleteTokenExpires() {
+        return preferenceHelper.removePreference(PREF_TOKEN_EXPIRES)
     }
 
     override fun getUserTokenFlow(): Flow<String> {
@@ -58,6 +74,7 @@ class UserPreferenceDataSourceImpl(private val preferenceHelper: PreferenceDataS
 
     companion object {
         val PREF_USER_TOKEN = stringPreferencesKey("PREF_USER_TOKEN")
+        val PREF_TOKEN_EXPIRES = longPreferencesKey("PREF_TOKEN_EXPIRES")
         val PREF_SHOW_INTRO_PAGE = booleanPreferencesKey("PREF_SHOW_INTRO_PAGE")
         val PREF_USER_DARK_MODE = booleanPreferencesKey("PREF_USER_DARK_MODE")
     }
