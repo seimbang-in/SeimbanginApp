@@ -1,21 +1,30 @@
 package com.aeryz.seimbanginapp.ui.register.fragment
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.databinding.FragmentSecondRegisterBinding
 import com.aeryz.seimbanginapp.ui.login.LoginActivity
 import com.aeryz.seimbanginapp.ui.register.RegisterViewModel
 import com.aeryz.seimbanginapp.utils.exception.ApiException
 import com.aeryz.seimbanginapp.utils.proceedWhen
-import com.shashank.sony.fancytoastlib.FancyToast
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class SecondRegisterFragment : Fragment() {
@@ -46,14 +55,7 @@ class SecondRegisterFragment : Fragment() {
                 doOnSuccess = {
                     binding.btnRegister.isVisible = true
                     binding.pbLoading.isVisible = false
-                    FancyToast.makeText(
-                        requireActivity(),
-                        "Register Success, Please Login!",
-                        FancyToast.LENGTH_LONG,
-                        FancyToast.SUCCESS,
-                        false
-                    ).show()
-                    navigateToLogin()
+                    customPopup(1, null)
                 },
                 doOnLoading = {
                     binding.btnRegister.isVisible = false
@@ -63,13 +65,7 @@ class SecondRegisterFragment : Fragment() {
                     binding.btnRegister.isVisible = true
                     binding.pbLoading.isVisible = false
                     if (it.exception is ApiException) {
-                        FancyToast.makeText(
-                            requireActivity(),
-                            it.exception.getParsedError()?.message,
-                            FancyToast.LENGTH_LONG,
-                            FancyToast.ERROR,
-                            false
-                        ).show()
+                        customPopup(0, it.exception.getParsedError()?.message.orEmpty())
                     }
                 }
             )
@@ -155,6 +151,42 @@ class SecondRegisterFragment : Fragment() {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         startActivity(intent)
+    }
+
+    private fun customPopup(type: Int, message: String?) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.custom_layout_popup)
+        val window = dialog.window
+        val layoutParams = window?.attributes
+        layoutParams?.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
+        window?.attributes = layoutParams
+        val icon = dialog.findViewById<ImageView>(R.id.iv_icon)
+        val title = dialog.findViewById<TextView>(R.id.tv_title)
+        val description = dialog.findViewById<TextView>(R.id.tv_description)
+        val button = dialog.findViewById<Button>(R.id.btn_continue)
+        if (type == 1) {
+            icon.load(R.drawable.ic_success)
+            title.text = getString(R.string.text_success)
+            description.text = getString(R.string.text_successfully_creating_the_account)
+            button.setOnClickListener {
+                dialog.dismiss()
+                navigateToLogin()
+            }
+        } else {
+            icon.load(R.drawable.ic_failed)
+            title.text = getString(R.string.text_failed)
+            title.setTextColor(ContextCompat.getColor(requireContext(), R.color.error_500))
+            description.text = getString(R.string.text_failed_creating_account, message)
+            button.backgroundTintList =
+                ContextCompat.getColorStateList(requireContext(), R.color.error_500)
+            button.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+        dialog.show()
     }
 
     override fun onDestroy() {

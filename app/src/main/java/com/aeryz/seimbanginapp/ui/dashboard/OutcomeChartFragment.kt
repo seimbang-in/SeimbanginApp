@@ -63,10 +63,15 @@ class OutcomeChartFragment : Fragment() {
         val entries = ArrayList<PieEntry>()
 
         val filteredData = listEntity?.filter { it.type == 1 } ?: emptyList()
-        val totalAmount = filteredData.sumOf { it.amount?.toDoubleOrNull() ?: 0.0 }
-        val categoryAmountMap = filteredData.groupBy { it.category }.mapValues { entry ->
-            entry.value.sumOf { it.amount?.toDoubleOrNull() ?: 0.0 }
+        val categoryAmountMap = mutableMapOf<String, Double>()
+        for (transaction in filteredData) {
+            transaction.items?.forEach { item ->
+                val category = item.category ?: "others"
+                val subtotal = item.subtotal?.toDoubleOrNull() ?: 0.0
+                categoryAmountMap[category] = (categoryAmountMap[category] ?: 0.0) + subtotal
+            }
         }
+        val totalAmount = categoryAmountMap.values.sum()
 
         for ((category, amount) in categoryAmountMap) {
             if (totalAmount > 0) {

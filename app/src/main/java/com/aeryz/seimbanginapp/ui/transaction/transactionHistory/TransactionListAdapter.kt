@@ -2,14 +2,17 @@ package com.aeryz.seimbanginapp.ui.transaction.transactionHistory
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.data.local.datasource.TransactionCategoryDataSource
 import com.aeryz.seimbanginapp.databinding.LayoutItemTransactionListBinding
 import com.aeryz.seimbanginapp.model.TransactionItem
 import com.aeryz.seimbanginapp.utils.formatAmount
+import com.aeryz.seimbanginapp.utils.withDateFormat
 
 class TransactionListAdapter(
     private val itemClick: (TransactionItem) -> Unit
@@ -64,9 +67,18 @@ class TransactionListViewHolder(
         val sameItem = categoriesData.find { it.value == item.category }
         val iconRes = sameItem?.iconResId
         binding.ivCategory.load(iconRes)
-        binding.tvCategory.text = sameItem?.name
-        binding.tvDescription.text = item.description
-        binding.tvAmount.text = formatAmount(item.amount, item.type)
+        binding.tvCategory.text = item.description
+        binding.tvDescription.text = item.createdAt?.let { withDateFormat(it) }
+        binding.tvAmount.apply {
+            text = formatAmount(item.amount, item.type)
+            setTextColor(
+                when (item.type) {
+                    0 -> ContextCompat.getColor(context, R.color.success_500)
+                    1 -> ContextCompat.getColor(context, R.color.error_500)
+                    else -> ContextCompat.getColor(context, R.color.text_primary_500)
+                }
+            )
+        }
         itemView.setOnClickListener {
             itemClick(item)
         }

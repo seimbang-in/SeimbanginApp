@@ -1,7 +1,10 @@
 package com.aeryz.seimbanginapp.ui.splash
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +27,24 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
         checkIfUserLogin()
         observeDarkModePref()
+        setBottomText()
+    }
+
+    private fun setBottomText() {
+        val spannableString = SpannableString("bangkit.academy")
+        spannableString.setSpan(
+            ForegroundColorSpan(Color.RED),
+            0,
+            7,
+            SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannableString.setSpan(
+            ForegroundColorSpan(Color.BLACK),
+            7,
+            spannableString.length,
+            SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        binding.tvBangkit.text = spannableString
     }
 
     private fun checkIfUserLogin() {

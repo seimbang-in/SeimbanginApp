@@ -16,6 +16,7 @@ interface LocalTransactionRepository {
     fun insertListTransaction(transactions: List<TransactionEntity>): Flow<ResultWrapper<Boolean>>
     fun insertTransaction(transactionEntity: TransactionEntity): Flow<ResultWrapper<Boolean>>
     suspend fun deleteTransaction(id: Int)
+    suspend fun deleteAllTransaction()
 }
 
 class LocalTransactionRepositoryImpl(
@@ -54,6 +55,10 @@ class LocalTransactionRepositoryImpl(
 
     override suspend fun deleteTransaction(id: Int) {
         return transactionDao.deleteTransaction(id)
+    }
+
+    override suspend fun deleteAllTransaction() {
+        return transactionDao.deleteAllTransaction()
     }
 
 }

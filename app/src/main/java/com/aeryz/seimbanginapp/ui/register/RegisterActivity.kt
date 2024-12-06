@@ -23,6 +23,9 @@ class RegisterActivity : AppCompatActivity() {
         binding.textNavigateToLogin.highLightWord(getString(R.string.text_login)) {
             navigateToLogin()
         }
+        binding.ivBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun navigateToLogin() {

@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.aeryz.seimbanginapp.model.ProductItem
 import com.aeryz.seimbanginapp.model.TransactionItem
 import kotlinx.parcelize.Parcelize
 
@@ -15,6 +16,8 @@ data class TransactionEntity(
     val id: Int? = 0,
     @ColumnInfo(name = "user_id")
     val userId: Int? = 0,
+    @ColumnInfo(name = "name")
+    val name: String? = "",
     @ColumnInfo(name = "type")
     val type: Int? = 0,
     @ColumnInfo(name = "category")
@@ -26,19 +29,23 @@ data class TransactionEntity(
     @ColumnInfo(name = "created_at")
     val createdAt: String? = "",
     @ColumnInfo(name = "update_at")
-    val updatedAt: String? = ""
+    val updatedAt: String? = "",
+    @ColumnInfo(name = "items")
+    val items: List<ProductItem>?
 ) : Parcelable
 
 
 fun TransactionEntity.toTransactionItem() = TransactionItem(
     id = this.id ?: 0,
     userId = this.userId ?: 0,
+    name = this.name.orEmpty(),
     type = this.type ?: 0,
     category = this.category.orEmpty(),
     amount = this.amount.orEmpty(),
     description = this.description.orEmpty(),
     createdAt = this.createdAt.orEmpty(),
-    updatedAt = this.updatedAt.orEmpty()
+    updatedAt = this.updatedAt.orEmpty(),
+    items = this.items
 )
 
 fun Collection<TransactionEntity>.toTransactionItemList() = this.map { it.toTransactionItem() }

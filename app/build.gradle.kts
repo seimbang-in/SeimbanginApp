@@ -101,4 +101,6 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     // MPAndroid Chart
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    // Android Image Cropper
+    implementation("com.vanniktech:android-image-cropper:4.6.0")
 }
