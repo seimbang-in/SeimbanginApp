@@ -5,14 +5,14 @@
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
             <corners android:radius="8dp" />
-            <solid android:color="@color/primary_700" />
+            <solid android:color="@color/primary_200" />
         </shape>
     </item>
 
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="8dp" />
-            <solid android:color="@color/primary_500" />
+            <solid android:color="@color/primary_100" />
         </shape>
     </item>
 </ripple>

@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aeryz.seimbanginapp.data.network.model.createTransaction.CreateTransactionRequest
 import com.aeryz.seimbanginapp.data.network.model.createTransaction.CreateTransactionResponse
+import com.aeryz.seimbanginapp.data.network.model.createTransaction.TransactionItemRequest
 import com.aeryz.seimbanginapp.data.repository.TransactionRepository
 import com.aeryz.seimbanginapp.utils.ResultWrapper
 import kotlinx.coroutines.launch
@@ -17,12 +19,12 @@ class CreateTransactionViewModel(private val repository: TransactionRepository) 
 
     fun createTransaction(
         type: Int,
-        category: String,
-        amount: Double,
-        description: String
+        name: String,
+        items: List<TransactionItemRequest>
     ) {
         viewModelScope.launch {
-            repository.createTransaction(type, category, amount, description).collect{
+            val request = CreateTransactionRequest(type, name, items)
+            repository.createTransaction(request).collect{
                 _createTransactionResult.postValue(it)
             }
         }

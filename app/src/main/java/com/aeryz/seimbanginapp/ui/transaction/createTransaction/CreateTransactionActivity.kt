@@ -2,40 +2,43 @@ package com.aeryz.seimbanginapp.ui.transaction.createTransaction
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
+import android.util.Log
 import android.widget.RadioButton
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.aeryz.seimbanginapp.R
-import com.aeryz.seimbanginapp.data.local.datasource.TransactionCategoryDataSource
+import com.aeryz.seimbanginapp.data.network.model.createTransaction.TransactionItemRequest
 import com.aeryz.seimbanginapp.databinding.ActivityCreateTransactionBinding
 import com.aeryz.seimbanginapp.ui.transaction.transactionHistory.TransactionHistoryActivity
 import com.aeryz.seimbanginapp.utils.exception.ApiException
 import com.aeryz.seimbanginapp.utils.proceedWhen
+import com.aeryz.seimbanginapp.utils.withCurrencyFormat
 import com.shashank.sony.fancytoastlib.FancyToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreateTransactionActivity : AppCompatActivity() {
+class CreateTransactionActivity : AppCompatActivity(), OnTransactionItemChangeListener {
 
     private lateinit var binding: ActivityCreateTransactionBinding
 
     private val viewModel: CreateTransactionViewModel by viewModel()
 
-    private var selectedCategory: String = ""
+    private var selectedType: Int = 1
 
-    private var selectedType: Int = 0
+    private val transactionItems = mutableListOf(TransactionItemRequest())
+
+    private lateinit var transactionItemAdapter: TransactionItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateTransactionBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolBar()
-        getTransactionCategory()
         getTransactionType()
         setOnClickListener()
         observeCreateTransactionResult()
+        setTransactionItemRv()
+        updateTotalPrice()
     }
 
     private fun observeCreateTransactionResult() {
@@ -44,7 +47,10 @@ class CreateTransactionActivity : AppCompatActivity() {
                 doOnSuccess = {
                     binding.pbLoading.isVisible = false
                     binding.btnCreateTransaction.isVisible = true
-                    showToast(getString(R.string.text_create_transaction_success), FancyToast.SUCCESS)
+                    showToast(
+                        getString(R.string.text_create_transaction_success),
+                        FancyToast.SUCCESS
+                    )
                     navigateToTransactionHistory()
                 },
                 doOnLoading = {
@@ -63,63 +69,55 @@ class CreateTransactionActivity : AppCompatActivity() {
     }
 
     private fun navigateToTransactionHistory() {
-        val intent = Intent(this, TransactionHistoryActivity::class.java)
+        val intent = Intent(this, TransactionHistoryActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        }
         startActivity(intent)
+        finish()
     }
 
     private fun setOnClickListener() {
         binding.btnCreateTransaction.setOnClickListener {
+            Log.d("ITEMS", transactionItems.toString())
             createTransaction()
         }
     }
 
+    private fun setTransactionItemRv() {
+        transactionItemAdapter = TransactionItemAdapter(transactionItems, this)
+        binding.rvTransactionItem.adapter = transactionItemAdapter
+        binding.rvTransactionItem.layoutManager = LinearLayoutManager(this)
+        binding.fabAddItem.setOnClickListener {
+            transactionItems.add(TransactionItemRequest())
+            transactionItemAdapter.notifyItemInserted(transactionItems.size - 1)
+            updateTotalPrice()
+        }
+    }
+
     private fun createTransaction() {
-        val amountStr = binding.etAmount.text.toString().trim()
-        val descriptionStr = binding.etDescription.text.toString().trim()
+        val transactionName = binding.etTransactionName.text.toString().trim()
         if (isFormValid()) {
             val type = selectedType
-            val category = selectedCategory
-            val amount = amountStr.toDouble()
-            viewModel.createTransaction(type, category, amount, descriptionStr)
+            if (transactionItemAdapter.validateItems()) {
+                viewModel.createTransaction(type, transactionName, transactionItems)
+            } else {
+                showToast("Please correct the errors in the form", FancyToast.ERROR)
+            }
         }
     }
 
     private fun isFormValid(): Boolean {
-        val amountStr = binding.etAmount.text.toString().trim()
-        val descriptionStr = binding.etDescription.text.toString().trim()
-        return checkAmountValidation(amountStr)
-                && checkDescriptionValidation(descriptionStr)
+        val transactionName = binding.etTransactionName.text.toString().trim()
+        return checkTransactionNameValidation(transactionName)
     }
 
     private fun getTransactionType() {
         binding.rgTransactionType.setOnCheckedChangeListener { radioGroup, checkedId ->
             val selectedRadioButton = binding.root.findViewById<RadioButton>(checkedId)
             val selectedText = selectedRadioButton.text.toString()
-            if (selectedText == getString(R.string.text_income)) selectedType = 0 else selectedType = 1
+            if (selectedText == getString(R.string.text_income)) selectedType =
+                0 else selectedType = 1
         }
-    }
-
-    private fun getTransactionCategory() {
-        val categories = TransactionCategoryDataSource(this).getCategories()
-        val adapter = CategorySpinnerAdapter(this, categories)
-        binding.spinnerCategory.adapter = adapter
-        binding.spinnerCategory.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View,
-                    position: Int,
-                    id: Long
-                ) {
-                    selectedCategory = categories[position].value
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    Toast.makeText(parent.context,
-                        getString(R.string.text_please_select_category), Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
     }
 
     private fun setupToolBar() {
@@ -129,31 +127,13 @@ class CreateTransactionActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
-    private fun checkAmountValidation(amount: String): Boolean {
-        return if (amount.isEmpty()) {
-            binding.tilAmount.isErrorEnabled = true
-            binding.tilAmount.error = getString(R.string.text_amount_still_empty)
+    private fun checkTransactionNameValidation(name: String): Boolean {
+        return if (name.isEmpty()) {
+            binding.tilTransactionName.isErrorEnabled = true
+            binding.tilTransactionName.error = getString(R.string.text_description_still_empty)
             false
         } else {
-            try {
-                amount.toDouble()
-                binding.tilAmount.isErrorEnabled = false
-                true
-            } catch (e: NumberFormatException) {
-                binding.tilAmount.isErrorEnabled = true
-                binding.tilAmount.error = getString(R.string.text_input_valid_number)
-                false
-            }
-        }
-    }
-
-    private fun checkDescriptionValidation(description: String): Boolean {
-        return if (description.isEmpty()) {
-            binding.tilDescription.isErrorEnabled = true
-            binding.tilDescription.error = getString(R.string.text_description_still_empty)
-            false
-        } else {
-            binding.tilDescription.isErrorEnabled = false
+            binding.tilTransactionName.isErrorEnabled = false
             true
         }
     }
@@ -166,5 +146,14 @@ class CreateTransactionActivity : AppCompatActivity() {
             type,
             false
         ).show()
+    }
+
+    override fun onTransactionItemChanged(transactionItems: List<TransactionItemRequest>) {
+        updateTotalPrice()
+    }
+
+    private fun updateTotalPrice() {
+        val totalPrice = transactionItems.sumOf { it.price * it.quantity }
+        binding.totalPrice.text = withCurrencyFormat(totalPrice.toString())
     }
 }

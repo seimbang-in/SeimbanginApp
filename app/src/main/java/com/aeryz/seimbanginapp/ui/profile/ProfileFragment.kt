@@ -49,6 +49,7 @@ class ProfileFragment : Fragment() {
     private fun setOnClickListener() {
         binding.tvLogout.setOnClickListener {
             viewModel.doLogout()
+            viewModel.deleteAllTransactionFromDb()
             navigateToLogin()
         }
         binding.tvEditProfile.setOnClickListener {

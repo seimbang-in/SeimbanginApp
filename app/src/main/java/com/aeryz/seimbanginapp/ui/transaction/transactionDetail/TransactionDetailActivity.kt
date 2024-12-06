@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.databinding.ActivityTransactionDetailBinding
@@ -123,6 +124,12 @@ class TransactionDetailActivity : AppCompatActivity() {
         binding.tvCategory.text = capitalizeFirstChar(item?.category)
         binding.tvDescription.text = item?.description
         binding.tvAmount.text = formatAmount(item?.amount, item?.type)
+        val productListAdapter = ProductListAdapter()
+        item?.items?.let { productListAdapter.submitData(it) }
+        binding.rvProductList.apply {
+            layoutManager = LinearLayoutManager(this@TransactionDetailActivity)
+            adapter = productListAdapter
+        }
     }
 
     private fun deleteTransaction(id: Int) {

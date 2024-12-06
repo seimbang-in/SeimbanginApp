@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_form_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_600"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_item"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="8dp"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    tools:text="Item 1" />
+
+                <ImageView
+                    android:id="@+id/ic_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_delete_24"
+                    app:tint="?attr/colorError" />
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_name"
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Item Name"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/spinner_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/bg_white_outline_primary"
+                android:popupBackground="@drawable/bg_white_outline_primary"
+                android:spinnerMode="dropdown" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_price"
+                    style="@style/CustomTextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    app:startIconDrawable="@drawable/ic_rupiah"
+                    app:startIconTint="@color/primary_500">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Price"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_quantity"
+                    style="@style/CustomTextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    app:startIconTint="@color/primary_500">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_quantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Quantity"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,12 +56,14 @@ class HomeViewModel(
                 TransactionEntity(
                     id = item.id,
                     userId = item.userId,
+                    name = item.name,
                     type = item.type,
                     category = item.category,
                     amount = item.amount,
                     description = item.description,
                     createdAt = item.createdAt,
-                    updatedAt = item.updatedAt
+                    updatedAt = item.updatedAt,
+                    items = item.items
                 )
             }
             localTransactionRepository.insertListTransaction(entities).collect {

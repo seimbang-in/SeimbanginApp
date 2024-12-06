@@ -9,7 +9,6 @@
     <string name="text_error_password_empty">Password is empty!</string>
     <string name="text_register">Register</string>
     <string name="text_login">Login</string>
-    <string name="text_login_to_continue_using_the_app">Login to continue using the app</string>
     <string name="text_email">Email</string>
     <string name="text_enter_your_email">Enter your email</string>
     <string name="text_password">Password</string>
@@ -103,6 +102,16 @@
     <string name="text_last_outcome_transaction">Last Outcome Transaction</string>
     <string name="text_dark_mode">Dark Mode</string>
     <string name="text_language">Language</string>
+    <string name="text_sign_in_to_continue">Sign in to continue</string>
+    <string name="text_create_an_account">Create an account</string>
+    <string name="text_success">Success</string>
+    <string name="text_successfully_creating_the_account">Successfully creating the account!</string>
+    <string name="text_failed">Failed</string>
+    <string name="text_failed_creating_account">Failed creating account! \n %1$s</string>
+    <string name="text_last_transaction">Last Transaction</string>
+    <string name="text_transaction_name">Transaction Name</string>
+    <string name="text_format_quantity">x %1$s</string>
+    <string name="text_total_price">Total Price :</string>
     <string-array name="risk_management_types">
         <item>LOW</item>
         <item>MEDIUM</item>
