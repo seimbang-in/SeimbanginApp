@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.data.local.database.entity.TransactionEntity
 import com.aeryz.seimbanginapp.data.local.database.entity.toTransactionItemList
 import com.aeryz.seimbanginapp.databinding.FragmentOutcomeChartBinding
@@ -51,9 +53,23 @@ class OutcomeChartFragment : Fragment() {
         viewModel.getTransactionByType(1).observe(viewLifecycleOwner) { result ->
             result.proceedWhen(
                 doOnSuccess = {
+                    binding.rvTransactionList.isVisible = true
+                    binding.tvTransactionListError.isVisible = false
                     val data = it.payload
                     setupPieChart(data)
                     data?.toTransactionItemList()?.let { it1 -> setupRecyclerView(it1) }
+                },
+                doOnError = {
+                    binding.tvOutcomeAmount.text = formatAmount("0.0", 0)
+                    binding.rvTransactionList.isVisible = false
+                    binding.tvTransactionListError.isVisible = true
+                    binding.tvTransactionListError.text = it.exception?.localizedMessage.orEmpty()
+                },
+                doOnEmpty = {
+                    binding.tvOutcomeAmount.text = formatAmount("0.0", 0)
+                    binding.rvTransactionList.isVisible = false
+                    binding.tvTransactionListError.isVisible = true
+                    binding.tvTransactionListError.text = getString(R.string.text_transaction_still_empty)
                 }
             )
         }
@@ -117,8 +133,11 @@ class OutcomeChartFragment : Fragment() {
             animateY(1400, Easing.EaseInOutQuad)
             legend.isEnabled = false
         }
-
-        binding.tvOutcomeAmount.text = formatAmount(totalAmount.toString(), 1)
+        if (listEntity != null) {
+            binding.tvOutcomeAmount.text = formatAmount(totalAmount.toString(), 1)
+        } else {
+            binding.tvOutcomeAmount.text = formatAmount("0", 1)
+        }
     }
 
     private fun setupRecyclerView(listItem: List<TransactionItem>) {

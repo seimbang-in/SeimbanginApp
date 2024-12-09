@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aeryz.seimbanginapp.data.local.database.entity.TransactionEntity
+import com.aeryz.seimbanginapp.data.local.datastore.UserPreferenceDataSource
+import com.aeryz.seimbanginapp.data.network.model.advisor.AdvisorResponse
 import com.aeryz.seimbanginapp.data.network.model.profile.ProfileResponse
 import com.aeryz.seimbanginapp.data.network.model.transactionHistory.TransactionHistoryResponse
 import com.aeryz.seimbanginapp.data.repository.AuthRepository
@@ -12,20 +14,20 @@ import com.aeryz.seimbanginapp.data.repository.LocalTransactionRepository
 import com.aeryz.seimbanginapp.data.repository.TransactionRepository
 import com.aeryz.seimbanginapp.model.TransactionItem
 import com.aeryz.seimbanginapp.utils.ResultWrapper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val authRepository: AuthRepository,
     private val transactionRepository: TransactionRepository,
-    private val localTransactionRepository: LocalTransactionRepository
+    private val localTransactionRepository: LocalTransactionRepository,
+    private val userPreferenceDataSource: UserPreferenceDataSource
 ) : ViewModel() {
 
     private val _profileData = MutableLiveData<ResultWrapper<ProfileResponse>>()
     val profileData: LiveData<ResultWrapper<ProfileResponse>>
         get() = _profileData
 
-    var currentLimit: Int = 5
-    var currentPage: Int = 1
     private val _transactionHistory = MutableLiveData<ResultWrapper<TransactionHistoryResponse>>()
     val transactionHistory: LiveData<ResultWrapper<TransactionHistoryResponse>> =
         _transactionHistory
@@ -33,6 +35,14 @@ class HomeViewModel(
     private val _insertListToDatabaseResult = MutableLiveData<ResultWrapper<Boolean>>()
     val insertListToDatabaseResult: LiveData<ResultWrapper<Boolean>>
         get() = _insertListToDatabaseResult
+
+    private val _localAdvisor = MutableLiveData<String?>()
+    val localAdvisor: LiveData<String?>
+        get() = _localAdvisor
+
+    private val _aiAdvisor = MutableLiveData<ResultWrapper<AdvisorResponse>>()
+    val aiAdvisor: LiveData<ResultWrapper<AdvisorResponse>>
+        get() = _aiAdvisor
 
     fun getProfileData() {
         viewModelScope.launch {
@@ -71,4 +81,27 @@ class HomeViewModel(
             }
         }
     }
+
+    fun saveAdvise(advise: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userPreferenceDataSource.saveAdvise(advise)
+        }
+    }
+
+    fun getAdviseFromAI() {
+        viewModelScope.launch(Dispatchers.IO) {
+            transactionRepository.getAdvice().collect{
+                _aiAdvisor.postValue(it)
+            }
+        }
+    }
+
+    fun getAdviseFromDb() {
+        viewModelScope.launch(Dispatchers.IO) {
+            userPreferenceDataSource.getAdvise().collect{
+                _localAdvisor.postValue(it)
+            }
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.aeryz.seimbanginapp.data.network.service
 
+import com.aeryz.seimbanginapp.data.network.model.advisor.AdvisorResponse
 import com.aeryz.seimbanginapp.data.network.model.createTransaction.CreateTransactionRequest
 import com.aeryz.seimbanginapp.data.network.model.createTransaction.CreateTransactionResponse
 import com.aeryz.seimbanginapp.data.network.model.deleteTransaction.DeleteTransactionResponse
@@ -9,6 +10,7 @@ import com.aeryz.seimbanginapp.data.network.model.financialProfile.FinancialProf
 import com.aeryz.seimbanginapp.data.network.model.financialProfile.FinancialProfileResponse
 import com.aeryz.seimbanginapp.data.network.model.login.LoginRequest
 import com.aeryz.seimbanginapp.data.network.model.login.LoginResponse
+import com.aeryz.seimbanginapp.data.network.model.ocr.OcrResponse
 import com.aeryz.seimbanginapp.data.network.model.profile.ProfileResponse
 import com.aeryz.seimbanginapp.data.network.model.register.RegisterRequest
 import com.aeryz.seimbanginapp.data.network.model.register.RegisterResponse
@@ -68,4 +70,13 @@ interface ApiService {
     // Delete Transaction
     @DELETE("transaction/{id}")
     suspend fun deleteTransaction(@Path("id") id: Int?): DeleteTransactionResponse
+
+    // Ocr
+    @Multipart
+    @POST("ocr")
+    suspend fun scanReceipt(@Part image: MultipartBody.Part): OcrResponse
+
+    // Advisor
+    @GET("advisor")
+    suspend fun getAdvice(): AdvisorResponse
 }

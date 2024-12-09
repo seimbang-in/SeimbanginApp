@@ -38,6 +38,7 @@ class FinancialProfileActivity : AppCompatActivity() {
         observeUpdateResult()
         setupToolBar()
         updateEditMode()
+        setupRiskType()
     }
 
     private fun setupToolBar() {
@@ -62,6 +63,19 @@ class FinancialProfileActivity : AppCompatActivity() {
             }
 
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setupRiskType() {
+        selectedRiskType = "LOW"
+        val riskTypes = resources.getStringArray(R.array.risk_management_types)
+        val adapter = ArrayAdapter(this, R.layout.layout_item_risk_managemnt, riskTypes)
+        (binding.actvRiskType as? AutoCompleteTextView)?.apply {
+            setAdapter(adapter)
+            setText(selectedRiskType.uppercase(), false)
+            setOnItemClickListener { parent, view, position, id ->
+                selectedRiskType = riskTypes[position].toString().lowercase()
+            }
         }
     }
 

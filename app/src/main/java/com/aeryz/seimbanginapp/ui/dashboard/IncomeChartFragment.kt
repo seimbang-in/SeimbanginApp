@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.data.local.database.entity.TransactionEntity
 import com.aeryz.seimbanginapp.data.local.database.entity.toTransactionItemList
 import com.aeryz.seimbanginapp.databinding.FragmentIncomeChartBinding
@@ -44,15 +46,31 @@ class IncomeChartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeTransaction()
+        binding.tvSeeAll.setOnClickListener { navigateToTransactionHistory() }
     }
 
     private fun observeTransaction() {
         viewModel.getTransactionByType(0).observe(viewLifecycleOwner) { result ->
             result.proceedWhen(
                 doOnSuccess = {
+                    binding.rvTransactionList.isVisible = true
+                    binding.tvTransactionListError.isVisible = false
                     val data = it.payload
                     setupPieChart(data)
                     data?.toTransactionItemList()?.let { it1 -> setupRecyclerView(it1) }
+                },
+                doOnError = {
+                    binding.tvIncomeAmount.text = formatAmount("0.0", 0)
+                    binding.rvTransactionList.isVisible = false
+                    binding.tvTransactionListError.isVisible = true
+                    binding.tvTransactionListError.text = it.exception?.localizedMessage.orEmpty()
+                },
+                doOnEmpty = {
+                    binding.tvIncomeAmount.text = formatAmount("0.0", 0)
+                    binding.rvTransactionList.isVisible = false
+                    binding.tvTransactionListError.isVisible = true
+                    binding.tvTransactionListError.text =
+                        getString(R.string.text_transaction_still_empty)
                 }
             )
         }
@@ -111,7 +129,6 @@ class IncomeChartFragment : Fragment() {
             animateY(1400, Easing.EaseInOutQuad)
             legend.isEnabled = false
         }
-
         binding.tvIncomeAmount.text = formatAmount(totalAmount.toString(), 0)
     }
 

@@ -21,6 +21,7 @@ import com.aeryz.seimbanginapp.ui.financialProfile.FinancialProfileViewModel
 import com.aeryz.seimbanginapp.ui.home.HomeViewModel
 import com.aeryz.seimbanginapp.ui.login.LoginViewModel
 import com.aeryz.seimbanginapp.ui.main.MainViewModel
+import com.aeryz.seimbanginapp.ui.ocr.OcrViewModel
 import com.aeryz.seimbanginapp.ui.profile.ProfileViewModel
 import com.aeryz.seimbanginapp.ui.register.RegisterViewModel
 import com.aeryz.seimbanginapp.ui.splash.SplashViewModel
@@ -72,7 +73,7 @@ object AppModules {
         viewModel { LoginViewModel(get(), get()) }
         viewModel { RegisterViewModel(get()) }
         viewModel { SplashViewModel(get()) }
-        viewModel { HomeViewModel(get(), get(), get()) }
+        viewModel { HomeViewModel(get(), get(), get(), get()) }
         viewModel { ProfileViewModel(get(), get(), get()) }
         viewModel { FinancialProfileViewModel(get()) }
         viewModel { EditProfileViewModel(get()) }
@@ -82,5 +83,6 @@ object AppModules {
         viewModel { ChatAiViewModel(get()) }
         viewModel { DashboardViewModel(get()) }
         viewModel { MainViewModel(get()) }
+        viewModel { OcrViewModel(get()) }
     }
 }
