@@ -112,9 +112,19 @@
     <string name="text_transaction_name">Transaction Name</string>
     <string name="text_format_quantity">x %1$s</string>
     <string name="text_total_price">Total Price :</string>
+    <string name="text_fill_financial_profile">Please fill in your financial profile data first to get Financial AI Advice</string>
+    <string name="text_financial_ai_advisor">Financial AI Advisor</string>
+    <string name="text_scan_image_warning">Please provide image in only table of product!</string>
+    <string name="text_scan_receipt_success">Scan Receipt Success</string>
+    <string name="text_scan_receipt">Scan Receipt</string>
+    <string name="text_choose_image">Choose Image</string>
+    <string name="text_upload">Upload</string>
     <string-array name="risk_management_types">
         <item>LOW</item>
         <item>MEDIUM</item>
         <item>HIGH</item>
     </string-array>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
 </resources>

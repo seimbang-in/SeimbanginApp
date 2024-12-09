@@ -105,8 +105,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add_item"
+        app:backgroundTint="?attr/colorPrimary"
         app:layout_constraintBottom_toTopOf="@id/cl_summary"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="?attr/colorOnPrimary" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/pb_loading"

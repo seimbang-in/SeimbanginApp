@@ -134,5 +134,9 @@
     <color name="warning_700">#b58348</color>
     <color name="warning_800">#8c6638</color>
     <color name="warning_900">#6b4e2b</color>
+    <color name="light_blue_50">#FFE1F5FE</color>
+    <color name="light_blue_200">#FF81D4FA</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
 
 </resources>

@@ -19,6 +19,9 @@ interface UserPreferenceDataSource {
     suspend fun setUserDarkModePref(isUsingDarkMode: Boolean)
     suspend fun setShouldShowIntroPage(isFirstTime: Boolean)
     fun getShouldShowIntroPage(): Flow<Boolean>
+    suspend fun saveAdvise(advice: String)
+    fun getAdvise(): Flow<String>
+    suspend fun deleteAdvise()
 }
 
 class UserPreferenceDataSourceImpl(private val preferenceHelper: PreferenceDataStoreHelper) :
@@ -60,6 +63,18 @@ class UserPreferenceDataSourceImpl(private val preferenceHelper: PreferenceDataS
         return preferenceHelper.getPreference(PREF_SHOW_INTRO_PAGE, true)
     }
 
+    override suspend fun saveAdvise(advice: String) {
+        return preferenceHelper.putPreference(PREF_USER_ADVISE, advice)
+    }
+
+    override fun getAdvise(): Flow<String> {
+        return preferenceHelper.getPreference(PREF_USER_ADVISE, "")
+    }
+
+    override suspend fun deleteAdvise() {
+        return preferenceHelper.removePreference(PREF_USER_ADVISE)
+    }
+
     override suspend fun getUserDarkModePref(): Boolean {
         return preferenceHelper.getFirstPreference(PREF_USER_DARK_MODE, false)
     }
@@ -77,5 +92,6 @@ class UserPreferenceDataSourceImpl(private val preferenceHelper: PreferenceDataS
         val PREF_TOKEN_EXPIRES = longPreferencesKey("PREF_TOKEN_EXPIRES")
         val PREF_SHOW_INTRO_PAGE = booleanPreferencesKey("PREF_SHOW_INTRO_PAGE")
         val PREF_USER_DARK_MODE = booleanPreferencesKey("PREF_USER_DARK_MODE")
+        val PREF_USER_ADVISE = stringPreferencesKey("PREF_USER_ADVISE")
     }
 }

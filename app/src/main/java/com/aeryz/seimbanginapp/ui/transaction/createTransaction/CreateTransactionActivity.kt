@@ -1,5 +1,6 @@
 package com.aeryz.seimbanginapp.ui.transaction.createTransaction
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.data.network.model.createTransaction.TransactionItemRequest
+import com.aeryz.seimbanginapp.data.network.model.ocr.OcrData
 import com.aeryz.seimbanginapp.databinding.ActivityCreateTransactionBinding
 import com.aeryz.seimbanginapp.ui.transaction.transactionHistory.TransactionHistoryActivity
 import com.aeryz.seimbanginapp.utils.exception.ApiException
@@ -23,7 +25,7 @@ class CreateTransactionActivity : AppCompatActivity(), OnTransactionItemChangeLi
 
     private val viewModel: CreateTransactionViewModel by viewModel()
 
-    private var selectedType: Int = 1
+    private var selectedType: Int = 0
 
     private val transactionItems = mutableListOf(TransactionItemRequest())
 
@@ -33,12 +35,31 @@ class CreateTransactionActivity : AppCompatActivity(), OnTransactionItemChangeLi
         super.onCreate(savedInstanceState)
         binding = ActivityCreateTransactionBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val extras = intent.getParcelableExtra<OcrData>(EXTRA_OCR)
+        if (extras != null) {
+            bindData(extras)
+        }
         setupToolBar()
         getTransactionType()
         setOnClickListener()
         observeCreateTransactionResult()
         setTransactionItemRv()
         updateTotalPrice()
+    }
+
+    private fun bindData(ocrData: OcrData?) {
+        val products = ocrData?.products
+        transactionItems.clear()
+        products?.map { product ->
+            val transactionItem = TransactionItemRequest(
+                itemName = product.name,
+                price = product.price ?: 1,
+                quantity = product.quantity ?: 1,
+                category = product.category
+            )
+            transactionItems.add(transactionItem)
+        }
+
     }
 
     private fun observeCreateTransactionResult() {
@@ -155,5 +176,15 @@ class CreateTransactionActivity : AppCompatActivity(), OnTransactionItemChangeLi
     private fun updateTotalPrice() {
         val totalPrice = transactionItems.sumOf { it.price * it.quantity }
         binding.totalPrice.text = withCurrencyFormat(totalPrice.toString())
+    }
+
+    companion object {
+        const val EXTRA_OCR = "OCR_DATA"
+
+        fun startActivity(context: Context, ocrData: OcrData) {
+            val intent = Intent(context, CreateTransactionActivity::class.java)
+            intent.putExtra(EXTRA_OCR, ocrData)
+            context.startActivity(intent)
+        }
     }
 }

@@ -50,6 +50,7 @@ class ProfileFragment : Fragment() {
         binding.tvLogout.setOnClickListener {
             viewModel.doLogout()
             viewModel.deleteAllTransactionFromDb()
+            viewModel.deleteAdviseFromDb()
             navigateToLogin()
         }
         binding.tvEditProfile.setOnClickListener {

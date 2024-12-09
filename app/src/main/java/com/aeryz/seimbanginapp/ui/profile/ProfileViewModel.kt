@@ -41,4 +41,10 @@ class ProfileViewModel(
             localTransactionRepository.deleteAllTransaction()
         }
     }
+
+    fun deleteAdviseFromDb() {
+        viewModelScope.launch(Dispatchers.IO) {
+            userPreferenceDataSource.deleteAdvise()
+        }
+    }
 }

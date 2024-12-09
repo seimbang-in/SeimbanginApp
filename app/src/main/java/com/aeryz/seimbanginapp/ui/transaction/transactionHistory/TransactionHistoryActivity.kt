@@ -74,8 +74,8 @@ class TransactionHistoryActivity : AppCompatActivity() {
     }
 
     private fun setupPaginationControls(transactionMeta: TransactionMeta) {
-        binding.btnPrevious.isEnabled = transactionMeta.hasPreviousPage == true
-        binding.btnNext.isEnabled = transactionMeta.hasNextPage == true
+        binding.btnPrevious.isVisible = transactionMeta.hasPreviousPage == true
+        binding.btnNext.isVisible = transactionMeta.hasNextPage == true
         binding.tvPage.text = getString(
             R.string.format_pagination,
             transactionMeta.currentPage,
