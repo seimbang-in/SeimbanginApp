@@ -1,6 +1,8 @@
 package com.aeryz.seimbanginapp.di
 
 import com.aeryz.seimbanginapp.data.local.database.TransactionDatabase
+import com.aeryz.seimbanginapp.data.local.datasource.IntroPageDataSource
+import com.aeryz.seimbanginapp.data.local.datasource.IntroPageDataSourceImpl
 import com.aeryz.seimbanginapp.data.local.datastore.UserPreferenceDataSource
 import com.aeryz.seimbanginapp.data.local.datastore.UserPreferenceDataSourceImpl
 import com.aeryz.seimbanginapp.data.local.datastore.appDataStore
@@ -60,6 +62,7 @@ object AppModules {
 
     private val dataSourceModule = module {
         single<SeimbanginDataSource> { SeimbanginDataSourceImpl(get()) }
+        single<IntroPageDataSource> { IntroPageDataSourceImpl() }
     }
 
     private val repositoryModule = module {
@@ -72,7 +75,7 @@ object AppModules {
     private val viewModelsModule = module {
         viewModel { LoginViewModel(get(), get()) }
         viewModel { RegisterViewModel(get()) }
-        viewModel { SplashViewModel(get()) }
+        viewModel { SplashViewModel(get(), get()) }
         viewModel { HomeViewModel(get(), get(), get(), get()) }
         viewModel { ProfileViewModel(get(), get(), get()) }
         viewModel { FinancialProfileViewModel(get()) }

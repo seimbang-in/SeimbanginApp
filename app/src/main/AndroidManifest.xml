@@ -15,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SeimbanginApp"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.splash.introPage.IntroPageActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".ui.widget.CardBalanceWidget"
             android:exported="false">

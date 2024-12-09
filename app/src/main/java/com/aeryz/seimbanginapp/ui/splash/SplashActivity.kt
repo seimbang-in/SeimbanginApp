@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.aeryz.seimbanginapp.databinding.ActivitySplashBinding
 import com.aeryz.seimbanginapp.ui.login.LoginActivity
 import com.aeryz.seimbanginapp.ui.main.MainActivity
+import com.aeryz.seimbanginapp.ui.splash.introPage.IntroPageActivity
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,9 +26,22 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        checkIfUserLogin()
         observeDarkModePref()
         setBottomText()
+        checkShouldShowIntroPage()
+    }
+
+    private fun checkShouldShowIntroPage() {
+        viewModel.isFirstTime.observe(this) { isFirstTime ->
+            if (isFirstTime) navigateToIntroPage() else checkIfUserLogin()
+        }
+    }
+
+    private fun navigateToIntroPage() {
+        val intent = Intent(this, IntroPageActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        startActivity(intent)
     }
 
     private fun setBottomText() {
