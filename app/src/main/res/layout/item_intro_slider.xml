@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/iv_slider_image"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_weight="1"
+        android:src="@drawable/intropage_image_1" />
+
+    <TextView
+        android:id="@+id/tv_slider_title"
+        style="@style/TextAppearance.Material3.HeadlineLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="32dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        tools:text="Track Your Finances, Effortlessly!" />
+
+    <TextView
+        android:id="@+id/tv_slider_description"
+        style="@style/TextAppearance.Material3.BodyLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        tools:text="Simple and intuitive design makes managing your money stress-free. Perfect for everyone!" />
+
+</LinearLayout>
