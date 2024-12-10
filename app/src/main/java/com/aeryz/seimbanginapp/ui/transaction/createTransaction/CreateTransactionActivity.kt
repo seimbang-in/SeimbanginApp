@@ -1,11 +1,20 @@
 package com.aeryz.seimbanginapp.ui.transaction.createTransaction
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
 import android.widget.RadioButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aeryz.seimbanginapp.R
@@ -16,6 +25,7 @@ import com.aeryz.seimbanginapp.ui.transaction.transactionHistory.TransactionHist
 import com.aeryz.seimbanginapp.utils.exception.ApiException
 import com.aeryz.seimbanginapp.utils.proceedWhen
 import com.aeryz.seimbanginapp.utils.withCurrencyFormat
+import com.airbnb.lottie.LottieAnimationView
 import com.shashank.sony.fancytoastlib.FancyToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,11 +35,13 @@ class CreateTransactionActivity : AppCompatActivity(), OnTransactionItemChangeLi
 
     private val viewModel: CreateTransactionViewModel by viewModel()
 
-    private var selectedType: Int = 0
+    private var selectedType: Int = 1
 
     private val transactionItems = mutableListOf(TransactionItemRequest())
 
     private lateinit var transactionItemAdapter: TransactionItemAdapter
+
+    private var soundPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,11 +80,7 @@ class CreateTransactionActivity : AppCompatActivity(), OnTransactionItemChangeLi
                 doOnSuccess = {
                     binding.pbLoading.isVisible = false
                     binding.btnCreateTransaction.isVisible = true
-                    showToast(
-                        getString(R.string.text_create_transaction_success),
-                        FancyToast.SUCCESS
-                    )
-                    navigateToTransactionHistory()
+                    customPopup(1, null)
                 },
                 doOnLoading = {
                     binding.pbLoading.isVisible = true
@@ -82,7 +90,7 @@ class CreateTransactionActivity : AppCompatActivity(), OnTransactionItemChangeLi
                     binding.pbLoading.isVisible = false
                     binding.btnCreateTransaction.isVisible = true
                     if (it.exception is ApiException) {
-                        showToast(it.exception.getParsedError()?.message, FancyToast.ERROR)
+                        customPopup(0, it.exception.getParsedError()?.message)
                     }
                 }
             )
@@ -176,6 +184,50 @@ class CreateTransactionActivity : AppCompatActivity(), OnTransactionItemChangeLi
     private fun updateTotalPrice() {
         val totalPrice = transactionItems.sumOf { it.price * it.quantity }
         binding.totalPrice.text = withCurrencyFormat(totalPrice.toString())
+    }
+
+    private fun customPopup(type: Int, message: String?) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.custom_layout_popup)
+        val window = dialog.window
+        val layoutParams = window?.attributes
+        layoutParams?.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
+        window?.attributes = layoutParams
+        val animationView = dialog.findViewById<LottieAnimationView>(R.id.animation_view)
+        val title = dialog.findViewById<TextView>(R.id.tv_title)
+        val description = dialog.findViewById<TextView>(R.id.tv_description)
+        val button = dialog.findViewById<Button>(R.id.btn_continue)
+        if (type == 1) {
+            soundPlayer = MediaPlayer.create(this, R.raw.sound_success)
+            soundPlayer?.start()
+            animationView.setAnimation(R.raw.animation_success)
+            title.text = getString(R.string.text_success)
+            description.text = getString(R.string.text_create_transaction_success)
+            button.setOnClickListener {
+                dialog.dismiss()
+                navigateToTransactionHistory()
+            }
+        } else {
+            soundPlayer = MediaPlayer.create(this, R.raw.sound_error)
+            soundPlayer?.start()
+            animationView.setAnimation(R.raw.animation_error)
+            title.text = getString(R.string.text_failed)
+            title.setTextColor(ContextCompat.getColor(this, R.color.error_500))
+            description.text = getString(R.string.text_failed_creating_transaction, message)
+            button.backgroundTintList =
+                ContextCompat.getColorStateList(this, R.color.error_500)
+            button.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+        dialog.show()
+        dialog.setOnDismissListener {
+            soundPlayer?.release()
+            soundPlayer = null
+        }
     }
 
     companion object {

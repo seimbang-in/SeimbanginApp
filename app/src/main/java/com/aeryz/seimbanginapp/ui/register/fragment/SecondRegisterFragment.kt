@@ -12,19 +12,18 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import coil.load
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.databinding.FragmentSecondRegisterBinding
 import com.aeryz.seimbanginapp.ui.login.LoginActivity
 import com.aeryz.seimbanginapp.ui.register.RegisterViewModel
 import com.aeryz.seimbanginapp.utils.exception.ApiException
 import com.aeryz.seimbanginapp.utils.proceedWhen
+import com.airbnb.lottie.LottieAnimationView
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class SecondRegisterFragment : Fragment() {
@@ -163,12 +162,12 @@ class SecondRegisterFragment : Fragment() {
         layoutParams?.width = WindowManager.LayoutParams.MATCH_PARENT
         layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
         window?.attributes = layoutParams
-        val icon = dialog.findViewById<ImageView>(R.id.iv_icon)
+        val animationView = dialog.findViewById<LottieAnimationView>(R.id.animation_view)
         val title = dialog.findViewById<TextView>(R.id.tv_title)
         val description = dialog.findViewById<TextView>(R.id.tv_description)
         val button = dialog.findViewById<Button>(R.id.btn_continue)
         if (type == 1) {
-            icon.load(R.drawable.ic_success)
+            animationView.setAnimation(R.raw.animation_success)
             title.text = getString(R.string.text_success)
             description.text = getString(R.string.text_successfully_creating_the_account)
             button.setOnClickListener {
@@ -176,7 +175,7 @@ class SecondRegisterFragment : Fragment() {
                 navigateToLogin()
             }
         } else {
-            icon.load(R.drawable.ic_failed)
+            animationView.setAnimation(R.raw.animation_error)
             title.text = getString(R.string.text_failed)
             title.setTextColor(ContextCompat.getColor(requireContext(), R.color.error_500))
             description.text = getString(R.string.text_failed_creating_account, message)
