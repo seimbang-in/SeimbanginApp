@@ -144,4 +144,12 @@
     <string name="text_welcome_back">Welcome back</string>
     <string name="text_welcome_let_s_get_you_started">Welcome! Let’s get you started.</string>
     <string name="text_smart_money_balanced_journey" translatable="false">“Smart Money, Balanced Journey”</string>
+    <string name="text_title_onboarding_1">Track Your Finances, Effortlessly!</string>
+    <string name="text_title_onboarding_2">Automate Your Tracking!</string>
+    <string name="text_title_onboarding_3">Know Where Your Money Goes!</string>
+    <string name="text_desc_onboarding_1">Simple and intuitive design makes managing your money stress-free. Perfect for everyone!</string>
+    <string name="text_desc_onboarding_3">Easily see your income, expenses, and financial trends in one place. Stay in control of your budget!</string>
+    <string name="text_desc_onboarding_2">Simply scan your purchase receipts, and we’ll handle the rest. Fast, accurate, and hassle-free!</string>
+    <string name="text_outcome_chart">Outcome Chart</string>
+    <string name="text_income_chart">Income Chart</string>
 </resources>

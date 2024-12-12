@@ -1,5 +1,6 @@
 package com.aeryz.seimbanginapp.ui.splash
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,7 +35,7 @@ class SplashViewModel(
     private val _isFirstTime = MutableLiveData<Boolean>()
     val isFirstTime: LiveData<Boolean> get() = _isFirstTime
 
-    fun getIntroPageData() = introPageDataSource.getIntroPageData()
+    fun getIntroPageData(context: Context) = introPageDataSource.getIntroPageData(context)
 
     fun setShouldShowIntroPage(isFirstTime: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {

@@ -24,7 +24,7 @@ class IntroPageActivity : AppCompatActivity() {
     private val viewModel: SplashViewModel by viewModel()
 
     private val introPageAdapter: IntroPageAdapter by lazy {
-        IntroPageAdapter(viewModel.getIntroPageData())
+        IntroPageAdapter(viewModel.getIntroPageData(this))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
