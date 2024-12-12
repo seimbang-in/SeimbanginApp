@@ -60,5 +60,4 @@ class LocalTransactionRepositoryImpl(
     override suspend fun deleteAllTransaction() {
         return transactionDao.deleteAllTransaction()
     }
-
 }

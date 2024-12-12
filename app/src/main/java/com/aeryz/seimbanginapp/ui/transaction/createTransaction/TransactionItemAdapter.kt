@@ -39,11 +39,15 @@ class TransactionItemAdapter(
                             position: Int,
                             id: Long
                         ) {
-                            item.category = categories[position].value
+                            if (position == 0) {
+                                item.category = null
+                            } else {
+                                item.category = categories[position].value
+                            }
+                            listener.onTransactionItemChanged(items)
                         }
 
                         override fun onNothingSelected(parent: AdapterView<*>?) {
-                            // Handle no selection if necessary
                         }
                     }
 
@@ -113,14 +117,13 @@ class TransactionItemAdapter(
     fun validateItems(): Boolean {
         var isValid = true
         for ((index, item) in items.withIndex()) {
-            if (item.itemName.isNullOrBlank() || item.price <= 0 || item.quantity <= 0) {
+            if (item.itemName.isNullOrBlank() || item.price <= 0 || item.quantity <= 0 || item.category == null) {
                 isValid = false
                 notifyItemChanged(index)
             }
         }
         return isValid
     }
-
 }
 
 interface OnTransactionItemChangeListener {

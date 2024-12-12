@@ -21,6 +21,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/text_slogan"
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="48dp"
+        android:text="@string/text_smart_money_balanced_journey"
+        android:textAlignment="center"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@id/iv_logo" />
+
+    <TextView
         android:id="@+id/tv_bangkit"
         style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="wrap_content"

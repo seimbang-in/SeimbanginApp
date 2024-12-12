@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.databinding.FragmentDashboardBinding
-import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DashboardFragment : Fragment() {
@@ -28,22 +28,35 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTabLayout()
+        setTabIndicator()
     }
 
-    private fun setTabLayout() {
-        val tabArray =
-            arrayOf(
-                getString(R.string.text_income),
-                getString(R.string.text_outcome)
-            )
+    private fun setTabIndicator() {
         val viewPager = binding.viewPager
-        val tabLayout = binding.tabLayout
         val adapter = DashboardViewPagerAdapter(childFragmentManager, lifecycle)
         viewPager.adapter = adapter
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = tabArray[position]
-        }.attach()
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                binding.tvPage.text = when (position) {
+                    0 -> getString(R.string.text_income_capital)
+                    1 -> getString(R.string.text_outcome_capital)
+                    else -> ""
+                }
+            }
+        })
+        binding.btnPrevious.setOnClickListener {
+            val currentItem = viewPager.currentItem
+            if (currentItem > 0) {
+                viewPager.currentItem = currentItem - 1
+            }
+        }
+        binding.btnNext.setOnClickListener {
+            val currentItem = viewPager.currentItem
+            if (currentItem < DashboardViewPagerAdapter.totalTabs - 1) {
+                viewPager.currentItem = currentItem + 1
+            }
+        }
     }
 
     override fun onDestroyView() {

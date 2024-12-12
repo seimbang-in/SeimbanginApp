@@ -14,5 +14,5 @@ data class TransactionItem(
     val description: String?,
     val createdAt: String?,
     val updatedAt: String?,
-    val items: List<ProductItem>?,
+    val items: List<ProductItem>?
 ) : Parcelable

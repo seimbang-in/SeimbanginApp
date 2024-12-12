@@ -7,5 +7,4 @@ import com.aeryz.seimbanginapp.data.repository.LocalTransactionRepository
 class DashboardViewModel(private val localTransactionRepository: LocalTransactionRepository) : ViewModel() {
 
     fun getTransactionByType(type: Int) = localTransactionRepository.getTransactionByType(type).asLiveData()
-
 }

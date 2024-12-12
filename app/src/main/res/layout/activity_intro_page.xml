@@ -8,15 +8,6 @@
     android:padding="16dp"
     tools:context=".ui.splash.introPage.IntroPageActivity">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpager_intro_slider"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginVertical="16dp"
-        android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@id/indicator_slider"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/indicator_slider"
         android:layout_width="match_parent"
@@ -25,7 +16,15 @@
         android:layout_marginBottom="24dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/btn_login" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager_intro_slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/indicator_slider" />
 
     <Button
         android:id="@+id/btn_login"

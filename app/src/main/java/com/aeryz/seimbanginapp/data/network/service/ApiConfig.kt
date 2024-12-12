@@ -12,21 +12,24 @@ class ApiConfig {
     companion object {
         fun getApiService(
             chuckerInterceptor: ChuckerInterceptor,
-            userPreferenceDataSource: UserPreferenceDataSource
+            userPreferenceDataSource: UserPreferenceDataSource,
         ): ApiService {
-            val client = OkHttpClient.Builder()
-                .addInterceptor(chuckerInterceptor)
-                .addInterceptor(AuthInterceptor(userPreferenceDataSource))
-                .connectTimeout(120, TimeUnit.SECONDS)
-                .readTimeout(120, TimeUnit.SECONDS)
-                .build()
-            val retrofit = Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build()
+            val client =
+                OkHttpClient
+                    .Builder()
+                    .addInterceptor(chuckerInterceptor)
+                    .addInterceptor(AuthInterceptor(userPreferenceDataSource))
+                    .connectTimeout(120, TimeUnit.SECONDS)
+                    .readTimeout(120, TimeUnit.SECONDS)
+                    .build()
+            val retrofit =
+                Retrofit
+                    .Builder()
+                    .baseUrl(BuildConfig.BASE_URl)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(client)
+                    .build()
             return retrofit.create(ApiService::class.java)
         }
-
     }
 }

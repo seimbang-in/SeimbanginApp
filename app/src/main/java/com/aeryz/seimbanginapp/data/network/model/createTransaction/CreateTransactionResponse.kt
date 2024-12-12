@@ -1,8 +1,7 @@
 package com.aeryz.seimbanginapp.data.network.model.createTransaction
 
-
-import com.google.gson.annotations.SerializedName
 import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 
 @Keep
 data class CreateTransactionResponse(

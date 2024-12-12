@@ -12,6 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
     </style>
   <!-- Base application theme. -->
     <style name="Base.Theme.SeimbanginApp" parent="Theme.Material3.DayNight.NoActionBar">
@@ -27,4 +29,14 @@
         <item name="boxCornerRadiusBottomStart">8dp</item>
         <item name="boxCornerRadiusBottomEnd">8dp</item>
     </style>
+
+    <style name="CustomExposedDropDownLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxBackgroundColor">@color/black_500</item>
+        <item name="android:textColor">@color/white_500</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+    </style>
+
 </resources>

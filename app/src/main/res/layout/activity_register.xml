@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:fitsSystemWindows="true"
     tools:context=".ui.register.RegisterActivity">
 
@@ -30,7 +31,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_back"
+            app:layout_constraintTop_toTopOf="@id/iv_back"
             app:layout_constraintWidth_percent="0.35" />
 
         <TextView
@@ -45,14 +46,15 @@
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/register_icon" />
 
+
         <TextView
-            android:id="@+id/text_navigate_to_login"
+            android:id="@+id/text_register_desc"
             style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
-            android:text="@string/text_already_have_an_account_login"
+            android:text="@string/text_welcome_let_s_get_you_started"
             android:textAlignment="center"
             app:layout_constraintTop_toBottomOf="@id/text_register" />
 
@@ -62,8 +64,31 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:defaultNavHost="true"
-            app:layout_constraintTop_toBottomOf="@id/text_navigate_to_login"
+            app:layout_constraintTop_toBottomOf="@id/text_register_desc"
             app:navGraph="@navigation/register_navigation" />
+
+        <TextView
+            android:id="@+id/text_navigate_to_login"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:text="@string/text_already_have_an_account_login"
+            android:textAlignment="textStart"
+            app:layout_constraintTop_toBottomOf="@id/nav_host_fragment_register_activity" />
+
+        <TextView
+            android:id="@+id/text_slogan"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="36dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/text_smart_money_balanced_journey"
+            android:textAlignment="center"
+            android:textColor="@color/text_primary_200"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

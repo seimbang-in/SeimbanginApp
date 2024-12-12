@@ -5,6 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
     tools:context=".ui.login.LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,13 +38,13 @@
             app:layout_constraintTop_toBottomOf="@id/login_icon" />
 
         <TextView
-            android:id="@+id/text_navigate_to_register"
+            android:id="@+id/text_login_desc"
             style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
-            android:text="@string/text_don_t_have_account_register"
+            android:text="@string/text_welcome_let_s_get_you_started"
             android:textAlignment="center"
             app:layout_constraintTop_toBottomOf="@id/text_login" />
 
@@ -53,13 +55,13 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="48dp"
-            app:layout_constraintTop_toBottomOf="@id/text_navigate_to_register">
+            app:layout_constraintTop_toBottomOf="@id/text_login">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/text_email"
+                android:hint="@string/text_email_username"
                 android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -109,6 +111,31 @@
                 android:visibility="gone" />
 
         </FrameLayout>
+
+        <TextView
+            android:id="@+id/text_navigate_to_register"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="48dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/text_don_t_have_account_register"
+            android:textAlignment="textStart"
+            app:layout_constraintTop_toBottomOf="@id/fl_btn_login" />
+
+        <TextView
+            android:id="@+id/text_slogan"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="36dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/text_smart_money_balanced_journey"
+            android:textAlignment="center"
+            android:textColor="@color/text_primary_200"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -4,11 +4,11 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.data.local.database.entity.TransactionEntity
@@ -36,7 +36,8 @@ class IncomeChartFragment : Fragment() {
     private val viewModel: DashboardViewModel by viewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentIncomeChartBinding.inflate(inflater, container, false)
@@ -151,5 +152,4 @@ class IncomeChartFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

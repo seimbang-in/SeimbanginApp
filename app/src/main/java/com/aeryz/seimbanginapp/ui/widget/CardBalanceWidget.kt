@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import com.aeryz.seimbanginapp.R
-import com.aeryz.seimbanginapp.ui.main.MainActivity
 import com.aeryz.seimbanginapp.ui.ocr.OcrActivity
 import com.aeryz.seimbanginapp.ui.splash.SplashActivity
 import com.aeryz.seimbanginapp.ui.transaction.createTransaction.CreateTransactionActivity
@@ -42,7 +41,6 @@ internal fun updateAppWidget(
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int
 ) {
-
     val views = RemoteViews(context.packageName, R.layout.card_balance_widget)
 
     // Setup tombol scan
@@ -63,5 +61,4 @@ internal fun updateAppWidget(
     views.setTextViewText(R.id.tv_balance, withCurrencyFormat("0"))
 
     appWidgetManager.updateAppWidget(appWidgetId, views)
-
 }

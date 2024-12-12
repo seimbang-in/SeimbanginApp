@@ -34,7 +34,6 @@ data class TransactionEntity(
     val items: List<ProductItem>?
 ) : Parcelable
 
-
 fun TransactionEntity.toTransactionItem() = TransactionItem(
     id = this.id ?: 0,
     userId = this.userId ?: 0,

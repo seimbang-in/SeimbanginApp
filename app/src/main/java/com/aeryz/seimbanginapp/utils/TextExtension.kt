@@ -26,7 +26,7 @@ fun withDateFormat(inputDate: String): String {
 
 fun withCurrencyFormat(strPrice: String?): String {
     if (strPrice.isNullOrBlank()) return ""
-    val doublePrice = strPrice.toDouble()
-    val mCurrencyFormat = NumberFormat.getCurrencyInstance()
+    val doublePrice = strPrice.toDoubleOrNull() ?: return ""
+    val mCurrencyFormat = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
     return mCurrencyFormat.format(doublePrice)
 }

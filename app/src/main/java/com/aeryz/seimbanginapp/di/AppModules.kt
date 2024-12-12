@@ -68,7 +68,7 @@ object AppModules {
     private val repositoryModule = module {
         single<AuthRepository> { AuthRepositoryImpl(get()) }
         single<TransactionRepository> { TransactionRepositoryImpl(get()) }
-        single{ ChatAiRepository() }
+        single { ChatAiRepository() }
         single<LocalTransactionRepository> { LocalTransactionRepositoryImpl(get()) }
     }
 

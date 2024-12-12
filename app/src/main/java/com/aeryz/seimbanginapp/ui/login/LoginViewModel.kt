@@ -23,9 +23,9 @@ class LoginViewModel(
     val loginResult: LiveData<ResultWrapper<LoginResponse>>
         get() = _loginResult
 
-    fun login(email: String, password: String) {
+    fun login(identifier: String, password: String) {
         viewModelScope.launch {
-            repository.login(email, password).collect {
+            repository.login(identifier, password).collect {
                 _loginResult.postValue(it)
             }
         }

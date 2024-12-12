@@ -36,7 +36,8 @@ class OutcomeChartFragment : Fragment() {
     private val viewModel: DashboardViewModel by viewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentOutcomeChartBinding.inflate(inflater, container, false)
@@ -159,5 +160,4 @@ class OutcomeChartFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

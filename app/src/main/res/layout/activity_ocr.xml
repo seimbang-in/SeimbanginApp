@@ -23,60 +23,24 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
+    <ImageView
+        android:id="@+id/iv_image_preview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="32dp"
+        android:src="@drawable/ic_placeholder"
         app:layout_constraintBottom_toTopOf="@id/btn_choose_image"
-        app:layout_constraintTop_toBottomOf="@id/topAppBar">
-
-        <ImageView
-            android:id="@+id/iv_image_preview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_placeholder"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/ll_warning"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/bg_primary_rounded"
-            android:backgroundTint="@color/primary_300"
-            android:elevation="8dp"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/topAppBar">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:drawablePadding="8dp"
-                android:text="@string/text_scan_image_warning"
-                android:textAlignment="textStart"
-                android:textColor="?attr/colorOnPrimary"
-                app:drawableStartCompat="@drawable/ic_info_24" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:src="@drawable/receipt_example" />
-        </LinearLayout>
-
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@id/topAppBar" />
 
     <Button
         android:id="@+id/btn_choose_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="@drawable/bg_primary_rounded"
+        android:backgroundTint="@color/primary_100"
+        android:padding="16dp"
         android:text="@string/text_choose_image"
+        android:textColor="?attr/colorOnSecondary"
         app:layout_constraintBottom_toTopOf="@id/btn_upload" />
 
     <Button

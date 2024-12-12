@@ -60,18 +60,17 @@ class CreateTransactionActivity : AppCompatActivity(), OnTransactionItemChangeLi
     }
 
     private fun bindData(ocrData: OcrData?) {
-        val products = ocrData?.products
+        val products = ocrData?.items
         transactionItems.clear()
         products?.map { product ->
             val transactionItem = TransactionItemRequest(
-                itemName = product.name,
+                itemName = product.itemName,
                 price = product.price ?: 1,
                 quantity = product.quantity ?: 1,
                 category = product.category
             )
             transactionItems.add(transactionItem)
         }
-
     }
 
     private fun observeCreateTransactionResult() {
@@ -144,8 +143,12 @@ class CreateTransactionActivity : AppCompatActivity(), OnTransactionItemChangeLi
         binding.rgTransactionType.setOnCheckedChangeListener { radioGroup, checkedId ->
             val selectedRadioButton = binding.root.findViewById<RadioButton>(checkedId)
             val selectedText = selectedRadioButton.text.toString()
-            if (selectedText == getString(R.string.text_income)) selectedType =
-                0 else selectedType = 1
+            if (selectedText == getString(R.string.text_income)) {
+                selectedType =
+                    0
+            } else {
+                selectedType = 1
+            }
         }
     }
 

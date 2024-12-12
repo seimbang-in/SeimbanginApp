@@ -31,7 +31,6 @@ import com.aeryz.seimbanginapp.utils.withCurrencyFormat
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
-
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -40,13 +39,16 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         getProfileData()
         observeProfileData()
@@ -77,8 +79,8 @@ class HomeFragment : Fragment() {
                             error(R.drawable.profile_image)
                             transformations(CircleCropTransformation())
                         }
-                        binding.tvHelloProfile.text =
-                            getString(R.string.text_hi_user, response?.profileData?.fullName)
+                        val firstName = response?.profileData?.fullName?.substringBefore(" ")
+                        binding.tvHelloProfile.text = getString(R.string.text_hi_user, firstName)
                         val balance = response?.profileData?.balance
                         binding.tvBalance.text = withCurrencyFormat(balance)
                         updateWidgetBalance(requireContext(), balance)
@@ -86,7 +88,7 @@ class HomeFragment : Fragment() {
                         if (financeProfile == null) {
                             binding.cvAdvisor.isVisible = false
                             binding.cvFinancialProfileInfo.isVisible = true
-                            binding.cvFinancialProfileInfo.setOnClickListener{
+                            binding.cvFinancialProfileInfo.setOnClickListener {
                                 navigateToFinancialProfile()
                             }
                         } else {
@@ -112,7 +114,7 @@ class HomeFragment : Fragment() {
                     if (it.exception is ApiException) {
                         binding.contentState.tvError.text = it.exception.getParsedError()?.message
                     }
-                }
+                },
             )
         }
     }
@@ -120,9 +122,10 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView(data: List<TransactionItem>) {
         val layoutManager = LinearLayoutManager(requireActivity())
         binding.rvTransactionList.layoutManager = layoutManager
-        val adapter = TransactionListAdapter {
-            TransactionDetailActivity.startActivity(requireActivity(), it)
-        }
+        val adapter =
+            TransactionListAdapter {
+                TransactionDetailActivity.startActivity(requireActivity(), it)
+            }
         binding.rvTransactionList.adapter = adapter
         adapter.submitData(data)
     }
@@ -140,8 +143,10 @@ class HomeFragment : Fragment() {
                     binding.rvTransactionList.isVisible = true
                     it.payload?.let { response ->
                         response.data?.let { data ->
-                            val sortedData = data.toTransactionItemList()
-                                .sortedByDescending { item -> item.createdAt }
+                            val sortedData =
+                                data
+                                    .toTransactionItemList()
+                                    .sortedByDescending { item -> item.createdAt }
                             setupRecyclerView(sortedData.take(5))
                             viewModel.insertListToDatabase(sortedData)
                         }
@@ -166,7 +171,7 @@ class HomeFragment : Fragment() {
                     binding.rvTransactionList.isVisible = false
                     binding.tvTransactionListError.text =
                         getString(R.string.text_transaction_still_empty)
-                }
+                },
             )
         }
     }
@@ -180,7 +185,7 @@ class HomeFragment : Fragment() {
 //                        "Update Local Transaction Success",
 //                        Toast.LENGTH_SHORT
 //                    ).show()
-                }
+                },
             )
         }
     }
@@ -194,7 +199,7 @@ class HomeFragment : Fragment() {
                 doOnSuccess = {
                     binding.tvUserAdvise.isVisible = true
                     binding.pbLoadingAdvisor.isVisible = false
-                    val adviseResult = it.payload?.data?.advice
+                    val adviseResult = it.payload?.data?.replace("Output:\n", "")
                     adviseResult?.let { it1 -> viewModel.saveAdvise(it1) }
                 },
                 doOnLoading = {
@@ -205,9 +210,13 @@ class HomeFragment : Fragment() {
                     binding.pbLoadingAdvisor.isVisible = false
                     binding.tvUserAdvise.isVisible = true
                     if (it.exception is ApiException) {
-                        binding.tvUserAdvise.text = it.exception.getParsedError()?.message.orEmpty()
+                        binding.tvUserAdvise.text =
+                            it.exception
+                                .getParsedError()
+                                ?.message
+                                .orEmpty()
                     }
-                }
+                },
             )
         }
         viewModel.getAdviseFromDb()
@@ -253,11 +262,15 @@ class HomeFragment : Fragment() {
         startActivity(intent)
     }
 
-    private fun updateWidgetBalance(context: Context, balance: String?) {
+    private fun updateWidgetBalance(
+        context: Context,
+        balance: String?,
+    ) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
-        val appWidgetIds = appWidgetManager.getAppWidgetIds(
-            ComponentName(context, CardBalanceWidget::class.java)
-        )
+        val appWidgetIds =
+            appWidgetManager.getAppWidgetIds(
+                ComponentName(context, CardBalanceWidget::class.java),
+            )
         appWidgetIds.forEach { appWidgetId ->
             val views = RemoteViews(context.packageName, R.layout.card_balance_widget)
             views.setTextViewText(R.id.tv_balance, withCurrencyFormat(balance))
