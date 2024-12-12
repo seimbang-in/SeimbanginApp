@@ -1,8 +1,7 @@
 package com.aeryz.seimbanginapp.data.network.model.advisor
 
-
-import com.google.gson.annotations.SerializedName
 import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 
 @Keep
 data class AdvisorResponse(
@@ -13,5 +12,5 @@ data class AdvisorResponse(
     @SerializedName("message")
     val message: String?,
     @SerializedName("data")
-    val `data`: AdvisorData?
+    val data: String?
 )

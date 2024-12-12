@@ -2,7 +2,6 @@ package com.aeryz.seimbanginapp.data.network.model.transactionHistory
 
 import androidx.annotation.Keep
 import com.aeryz.seimbanginapp.model.ProductItem
-import com.aeryz.seimbanginapp.model.TransactionItem
 import com.google.gson.annotations.SerializedName
 
 @Keep

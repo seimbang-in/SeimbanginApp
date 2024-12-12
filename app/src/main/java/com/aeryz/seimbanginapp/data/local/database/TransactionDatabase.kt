@@ -28,7 +28,8 @@ abstract class TransactionDatabase : RoomDatabase() {
                 synchronized(TransactionDatabase::class.java) {
                     INSTANCE = Room.databaseBuilder(
                         context.applicationContext,
-                        TransactionDatabase::class.java, DB_NAME
+                        TransactionDatabase::class.java,
+                        DB_NAME
                     )
                         .fallbackToDestructiveMigration()
                         .build()

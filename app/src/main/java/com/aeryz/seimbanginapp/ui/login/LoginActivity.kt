@@ -2,7 +2,6 @@ package com.aeryz.seimbanginapp.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.aeryz.seimbanginapp.R
@@ -99,26 +98,22 @@ class LoginActivity : AppCompatActivity() {
 
     private fun doLogin() {
         if (isFormValid()) {
-            val email = binding.etEmail.text.toString().trim()
+            val identifier = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
-            viewModel.login(email, password)
+            viewModel.login(identifier, password)
         }
     }
 
     private fun isFormValid(): Boolean {
-        val email = binding.etEmail.text.toString().trim()
+        val identifier = binding.etEmail.text.toString().trim()
         val password = binding.etPassword.text.toString().trim()
-        return checkEmailValidation(email) && checkPasswordValidation(password)
+        return checkIdentifierValidation(identifier) && checkPasswordValidation(password)
     }
 
-    private fun checkEmailValidation(email: String): Boolean {
-        return if (email.isEmpty()) {
+    private fun checkIdentifierValidation(identifier: String): Boolean {
+        return if (identifier.isEmpty()) {
             binding.tilEmail.isErrorEnabled = true
-            binding.tilEmail.error = getString(R.string.text_error_email_empty)
-            false
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.tilEmail.isErrorEnabled = true
-            binding.tilEmail.error = getString(R.string.text_error_email_invalid)
+            binding.tilEmail.error = getString(R.string.text_email_username_still_empty)
             false
         } else {
             binding.tilEmail.isErrorEnabled = false

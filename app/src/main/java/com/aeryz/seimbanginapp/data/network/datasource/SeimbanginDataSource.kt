@@ -77,5 +77,4 @@ class SeimbanginDataSourceImpl(private val service: ApiService) : SeimbanginData
     override suspend fun getAdvice(): AdvisorResponse {
         return service.getAdvice()
     }
-
 }

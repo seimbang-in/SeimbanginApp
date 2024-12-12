@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.databinding.ActivityIntroPageBinding
@@ -66,20 +67,22 @@ class IntroPageActivity : AppCompatActivity() {
         val indicators = arrayOfNulls<ImageView>(introPageAdapter.itemCount)
         val layoutParams: LinearLayout.LayoutParams =
             LinearLayout.LayoutParams(
+                0,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                1F
             )
         layoutParams.setMargins(8, 0, 8, 0)
         for (i in indicators.indices) {
             indicators[i] = ImageView(applicationContext)
-            indicators[i].apply {
-                this?.setImageDrawable(
+            indicators[i]?.apply {
+                this.setImageDrawable(
                     ContextCompat.getDrawable(
                         applicationContext,
                         R.drawable.slider_indicator_inactive
                     )
                 )
-                this?.layoutParams = layoutParams
+                this.layoutParams = layoutParams
+                scaleType = ImageView.ScaleType.FIT_XY
             }
             binding.indicatorSlider.addView(indicators[i])
         }
@@ -113,6 +116,13 @@ class IntroPageActivity : AppCompatActivity() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     setCurrentIndicator(position)
+                    if (position == 2) {
+                        binding.btnLogin.isVisible = true
+                        binding.btnRegister.isVisible = true
+                    } else {
+                        binding.btnLogin.isVisible = false
+                        binding.btnRegister.isVisible = false
+                    }
                 }
             }
         )

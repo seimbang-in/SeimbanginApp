@@ -1,9 +1,15 @@
 package com.aeryz.seimbanginapp.ui.ocr
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
+import android.view.WindowManager
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -28,8 +34,6 @@ class OcrActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOcrBinding
 
     private val viewModel: OcrViewModel by viewModel()
-
-    private var isShowInfo = false
 
     private var ocrMenuItem: MenuItem? = null
 
@@ -58,17 +62,12 @@ class OcrActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_show_example -> {
-                isShowInfo = !isShowInfo
-                showExample()
+                showPopUpInfo()
                 true
             }
 
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun showExample() {
-        binding.llWarning.isVisible = isShowInfo
     }
 
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
@@ -94,7 +93,7 @@ class OcrActivity : AppCompatActivity() {
                 CropImageOptions(
                     guidelines = CropImageView.Guidelines.ON,
                     multiTouchEnabled = true,
-                    toolbarColor = ContextCompat.getColor(this, R.color.primary_500),
+                    toolbarColor = ContextCompat.getColor(this, R.color.primary_500)
                 )
             )
         )
@@ -161,4 +160,18 @@ class OcrActivity : AppCompatActivity() {
         binding.btnUpload.isEnabled = !isShowLoading
     }
 
+    private fun showPopUpInfo() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.layout_popup_dialog_receipt_example)
+        val window = dialog.window
+        val layoutParams = window?.attributes
+        layoutParams?.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
+        window?.attributes = layoutParams
+        val button = dialog.findViewById<ImageView>(R.id.close)
+        button.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+    }
 }

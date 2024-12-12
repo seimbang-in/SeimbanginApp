@@ -13,12 +13,11 @@ import com.aeryz.seimbanginapp.data.network.model.register.RegisterResponse
 import com.aeryz.seimbanginapp.data.network.model.uploadProfileImage.UploadProfileImageResponse
 import com.aeryz.seimbanginapp.utils.ResultWrapper
 import com.aeryz.seimbanginapp.utils.proceedFlow
-import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 
 interface AuthRepository {
-    fun login(email: String, password: String): Flow<ResultWrapper<LoginResponse>>
+    fun login(identifier: String, password: String): Flow<ResultWrapper<LoginResponse>>
     fun register(
         fullName: String,
         userName: String,
@@ -38,9 +37,9 @@ interface AuthRepository {
 }
 
 class AuthRepositoryImpl(private val dataSource: SeimbanginDataSource) : AuthRepository {
-    override fun login(email: String, password: String): Flow<ResultWrapper<LoginResponse>> {
+    override fun login(identifier: String, password: String): Flow<ResultWrapper<LoginResponse>> {
         return proceedFlow {
-            dataSource.login(LoginRequest(email, password))
+            dataSource.login(LoginRequest(identifier, password))
         }
     }
 
@@ -71,7 +70,11 @@ class AuthRepositoryImpl(private val dataSource: SeimbanginDataSource) : AuthRep
         return proceedFlow {
             dataSource.updateFinancialProfile(
                 FinancialProfileRequest(
-                    monthlyIncome, currentSavings, debt, financialGoals, riskManagement
+                    monthlyIncome,
+                    currentSavings,
+                    debt,
+                    financialGoals,
+                    riskManagement
                 )
             )
         }
@@ -88,5 +91,4 @@ class AuthRepositoryImpl(private val dataSource: SeimbanginDataSource) : AuthRep
             dataSource.uploadProfileImage(image)
         }
     }
-
 }

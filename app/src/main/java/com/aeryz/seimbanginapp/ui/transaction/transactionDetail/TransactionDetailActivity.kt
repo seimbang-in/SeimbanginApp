@@ -2,22 +2,22 @@ package com.aeryz.seimbanginapp.ui.transaction.transactionDetail
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.databinding.ActivityTransactionDetailBinding
 import com.aeryz.seimbanginapp.model.TransactionItem
 import com.aeryz.seimbanginapp.ui.transaction.transactionHistory.TransactionHistoryActivity
-import com.aeryz.seimbanginapp.utils.capitalizeFirstChar
 import com.aeryz.seimbanginapp.utils.exception.ApiException
-import com.aeryz.seimbanginapp.utils.formatAmount
 import com.aeryz.seimbanginapp.utils.proceedWhen
+import com.aeryz.seimbanginapp.utils.withCurrencyFormat
 import com.aeryz.seimbanginapp.utils.withDateFormat
 import com.shashank.sony.fancytoastlib.FancyToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -106,26 +106,23 @@ class TransactionDetailActivity : AppCompatActivity() {
 
     private fun bindData(item: TransactionItem?) {
         transactionId = item?.id
-        val categoryIcons = mapOf(
-            "food" to R.drawable.ic_food_24,
-            "transportation" to R.drawable.ic_transportation_24,
-            "utilities" to R.drawable.ic_utilities_24,
-            "entertainment" to R.drawable.ic_entertainment_24,
-            "shopping" to R.drawable.ic_shopping_24,
-            "healthcare" to R.drawable.ic_healthcare_24,
-            "education" to R.drawable.ic_education_24,
-            "others" to R.drawable.ic_others_24
-        )
-        val iconRes = categoryIcons[item?.category]
-        binding.ivCategory.load(iconRes)
         binding.tvType.text =
             (if (item?.type == 0) getString(R.string.text_income) else getString(R.string.text_outcome))
+        binding.tvType.backgroundTintList = ColorStateList.valueOf(
+            if (item?.type == 0) {
+                ContextCompat.getColor(this, R.color.success_500)
+            } else {
+                ContextCompat.getColor(this, R.color.error_500)
+            }
+        )
         binding.tvCreateAt.text = item?.createdAt?.let { withDateFormat(it) }
-        binding.tvCategory.text = capitalizeFirstChar(item?.category)
         binding.tvDescription.text = item?.description
-        binding.tvAmount.text = formatAmount(item?.amount, item?.type)
+        binding.tvAmount.text = withCurrencyFormat(item?.amount)
         val productListAdapter = ProductListAdapter()
-        item?.items?.let { productListAdapter.submitData(it) }
+        item?.items?.let { items ->
+            productListAdapter.submitData(items)
+            binding.tvItemsCount.text = items.size.toString()
+        }
         binding.rvProductList.apply {
             layoutManager = LinearLayoutManager(this@TransactionDetailActivity)
             adapter = productListAdapter

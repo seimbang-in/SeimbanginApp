@@ -1,9 +1,8 @@
 package com.aeryz.seimbanginapp.data.network.model.transactionHistory
 
-
-import com.google.gson.annotations.SerializedName
 import androidx.annotation.Keep
 import com.aeryz.seimbanginapp.model.TransactionItem
+import com.google.gson.annotations.SerializedName
 
 @Keep
 data class TransactionData(
@@ -26,7 +25,7 @@ data class TransactionData(
     @SerializedName("updatedAt")
     val updatedAt: String?,
     @SerializedName("items")
-    val items: List<ProductData>?,
+    val items: List<ProductData>?
 )
 
 fun TransactionData.toTransactionItem() = TransactionItem(

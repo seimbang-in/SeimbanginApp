@@ -11,9 +11,9 @@ import androidx.core.view.isVisible
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.data.network.model.profile.FinanceProfile
 import com.aeryz.seimbanginapp.databinding.ActivityFinancialProfileBinding
+import com.aeryz.seimbanginapp.utils.customPopupDialog
 import com.aeryz.seimbanginapp.utils.exception.ApiException
 import com.aeryz.seimbanginapp.utils.proceedWhen
-import com.shashank.sony.fancytoastlib.FancyToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FinancialProfileActivity : AppCompatActivity() {
@@ -99,7 +99,6 @@ class FinancialProfileActivity : AppCompatActivity() {
         }
     }
 
-
     private fun observeProfileData() {
         viewModel.profileData.observe(this) { result ->
             result.proceedWhen(
@@ -133,7 +132,6 @@ class FinancialProfileActivity : AppCompatActivity() {
         viewModel.getProfileData()
     }
 
-
     private fun setupForm(extraFinancialProfile: FinanceProfile?) {
         extraFinancialProfile?.let {
             binding.etMonthlyIncome.setText(extraFinancialProfile.monthlyIncome)
@@ -160,16 +158,16 @@ class FinancialProfileActivity : AppCompatActivity() {
                 doOnSuccess = {
                     binding.pbLoading.isVisible = false
                     binding.btnUpdate.isVisible = true
-                    FancyToast.makeText(
-                        this,
-                        getString(R.string.text_update_financial_profile_success),
-                        FancyToast.LENGTH_LONG,
-                        FancyToast.SUCCESS,
-                        false
-                    ).show()
-                    getProfileData()
-                    isEditMode = false
-                    updateEditMode()
+                    customPopupDialog(
+                        context = this,
+                        type = 1,
+                        successMessage = getString(R.string.text_update_financial_profile_success),
+                        errorMessage = null
+                    ) {
+                        getProfileData()
+                        isEditMode = false
+                        updateEditMode()
+                    }
                 },
                 doOnLoading = {
                     binding.pbLoading.isVisible = true
@@ -179,13 +177,12 @@ class FinancialProfileActivity : AppCompatActivity() {
                     binding.pbLoading.isVisible = false
                     binding.btnUpdate.isVisible = true
                     if (it.exception is ApiException) {
-                        FancyToast.makeText(
-                            this,
-                            it.exception.getParsedError()?.message,
-                            FancyToast.LENGTH_LONG,
-                            FancyToast.ERROR,
-                            false
-                        ).show()
+                        customPopupDialog(
+                            context = this,
+                            type = 0,
+                            successMessage = null,
+                            errorMessage = it.exception.getParsedError()?.message
+                        )
                     }
                 }
             )
@@ -223,10 +220,10 @@ class FinancialProfileActivity : AppCompatActivity() {
         val currentSavings = binding.etCurrentSavings.text.toString().trim()
         val debt = binding.etDebt.text.toString().trim()
         val financialGoals = binding.etFinancialGoals.text.toString().trim()
-        return checkMonthlyIncomeValidation(monthlyIncome)
-                && checkCurrentSavingsValidation(currentSavings)
-                && checkDebtValidation(debt)
-                && checkFinancialGoalsValidation(financialGoals)
+        return checkMonthlyIncomeValidation(monthlyIncome) &&
+            checkCurrentSavingsValidation(currentSavings) &&
+            checkDebtValidation(debt) &&
+            checkFinancialGoalsValidation(financialGoals)
     }
 
     private fun checkMonthlyIncomeValidation(monthlyIncome: String): Boolean {
@@ -293,5 +290,4 @@ class FinancialProfileActivity : AppCompatActivity() {
             true
         }
     }
-
 }

@@ -107,6 +107,8 @@ class TransactionHistoryActivity : AppCompatActivity() {
                 viewModel.currentLimit = newLimit
                 getData()
             }
+            isShowFilter = false
+            updateEditMode()
         }
     }
 
@@ -123,7 +125,8 @@ class TransactionHistoryActivity : AppCompatActivity() {
                         response.data?.let { data ->
                             setupRecyclerView(
                                 data.toTransactionItemList()
-                                    .sortedByDescending { item -> item.createdAt })
+                                    .sortedByDescending { item -> item.createdAt }
+                            )
                         }
                         response.meta?.let { meta -> setupPaginationControls(meta) }
                     }

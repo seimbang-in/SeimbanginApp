@@ -34,5 +34,4 @@ class RegisterActivity : AppCompatActivity() {
         }
         startActivity(intent)
     }
-
 }

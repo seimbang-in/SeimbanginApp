@@ -20,7 +20,7 @@ interface TransactionRepository {
     fun getAdvice(): Flow<ResultWrapper<AdvisorResponse>>
 }
 
-class TransactionRepositoryImpl(private val dataSource: SeimbanginDataSource): TransactionRepository {
+class TransactionRepositoryImpl(private val dataSource: SeimbanginDataSource) : TransactionRepository {
     override fun createTransaction(createTransactionRequest: CreateTransactionRequest): Flow<ResultWrapper<CreateTransactionResponse>> {
         return proceedFlow {
             dataSource.createTransaction(createTransactionRequest)
@@ -53,5 +53,4 @@ class TransactionRepositoryImpl(private val dataSource: SeimbanginDataSource): T
             dataSource.getAdvice()
         }
     }
-
 }

@@ -1,19 +1,11 @@
 package com.aeryz.seimbanginapp.ui.register.fragment
 
-import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
-import android.widget.Button
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -21,9 +13,9 @@ import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.databinding.FragmentSecondRegisterBinding
 import com.aeryz.seimbanginapp.ui.login.LoginActivity
 import com.aeryz.seimbanginapp.ui.register.RegisterViewModel
+import com.aeryz.seimbanginapp.utils.customPopupDialog
 import com.aeryz.seimbanginapp.utils.exception.ApiException
 import com.aeryz.seimbanginapp.utils.proceedWhen
-import com.airbnb.lottie.LottieAnimationView
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class SecondRegisterFragment : Fragment() {
@@ -35,7 +27,8 @@ class SecondRegisterFragment : Fragment() {
     private val viewModel: RegisterViewModel by activityViewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSecondRegisterBinding.inflate(layoutInflater, container, false)
@@ -54,7 +47,14 @@ class SecondRegisterFragment : Fragment() {
                 doOnSuccess = {
                     binding.btnRegister.isVisible = true
                     binding.pbLoading.isVisible = false
-                    customPopup(1, null)
+                    customPopupDialog(
+                        context = requireContext(),
+                        type = 1,
+                        successMessage = getString(R.string.text_successfully_creating_the_account),
+                        errorMessage = null
+                    ) {
+                        navigateToLogin()
+                    }
                 },
                 doOnLoading = {
                     binding.btnRegister.isVisible = false
@@ -64,7 +64,12 @@ class SecondRegisterFragment : Fragment() {
                     binding.btnRegister.isVisible = true
                     binding.pbLoading.isVisible = false
                     if (it.exception is ApiException) {
-                        customPopup(0, it.exception.getParsedError()?.message.orEmpty())
+                        customPopupDialog(
+                            context = requireContext(),
+                            type = 0,
+                            successMessage = null,
+                            errorMessage = it.exception.getParsedError()?.message
+                        )
                     }
                 }
             )
@@ -91,8 +96,8 @@ class SecondRegisterFragment : Fragment() {
         val email = binding.etEmail.text.toString().trim()
         val password = binding.etPassword.text.toString().trim()
         val confirmPassword = binding.etConfirmPassword.text.toString().trim()
-        return checkEmailValidation(email) && checkPasswordValidation(password)
-                && checkConfirmPasswordValidation(password, confirmPassword)
+        return checkEmailValidation(email) && checkPasswordValidation(password) &&
+            checkConfirmPasswordValidation(password, confirmPassword)
     }
 
     private fun checkConfirmPasswordValidation(password: String, confirmPassword: String): Boolean {
@@ -152,45 +157,8 @@ class SecondRegisterFragment : Fragment() {
         startActivity(intent)
     }
 
-    private fun customPopup(type: Int, message: String?) {
-        val dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setContentView(R.layout.custom_layout_popup)
-        val window = dialog.window
-        val layoutParams = window?.attributes
-        layoutParams?.width = WindowManager.LayoutParams.MATCH_PARENT
-        layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
-        window?.attributes = layoutParams
-        val animationView = dialog.findViewById<LottieAnimationView>(R.id.animation_view)
-        val title = dialog.findViewById<TextView>(R.id.tv_title)
-        val description = dialog.findViewById<TextView>(R.id.tv_description)
-        val button = dialog.findViewById<Button>(R.id.btn_continue)
-        if (type == 1) {
-            animationView.setAnimation(R.raw.animation_success)
-            title.text = getString(R.string.text_success)
-            description.text = getString(R.string.text_successfully_creating_the_account)
-            button.setOnClickListener {
-                dialog.dismiss()
-                navigateToLogin()
-            }
-        } else {
-            animationView.setAnimation(R.raw.animation_error)
-            title.text = getString(R.string.text_failed)
-            title.setTextColor(ContextCompat.getColor(requireContext(), R.color.error_500))
-            description.text = getString(R.string.text_failed_creating_account, message)
-            button.backgroundTintList =
-                ContextCompat.getColorStateList(requireContext(), R.color.error_500)
-            button.setOnClickListener {
-                dialog.dismiss()
-            }
-        }
-        dialog.show()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
-
 }

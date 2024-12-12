@@ -21,7 +21,8 @@ class SettingFragment : BottomSheetDialogFragment() {
     private val mainViewModel: MainViewModel by activityViewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSettingBinding.inflate(inflater, container, false)
@@ -59,5 +60,4 @@ class SettingFragment : BottomSheetDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

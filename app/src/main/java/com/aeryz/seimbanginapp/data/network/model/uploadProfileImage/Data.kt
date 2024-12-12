@@ -1,8 +1,7 @@
 package com.aeryz.seimbanginapp.data.network.model.uploadProfileImage
 
-
-import com.google.gson.annotations.SerializedName
 import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 
 @Keep
 data class Data(

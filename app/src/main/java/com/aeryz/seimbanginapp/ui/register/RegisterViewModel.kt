@@ -11,17 +11,17 @@ import kotlinx.coroutines.launch
 
 class RegisterViewModel(private val repository: AuthRepository) : ViewModel() {
     private val _registerResult = MutableLiveData<ResultWrapper<RegisterResponse>>()
-    val registerResult : LiveData<ResultWrapper<RegisterResponse>>
+    val registerResult: LiveData<ResultWrapper<RegisterResponse>>
         get() = _registerResult
 
     fun register(
         fullName: String,
         userName: String,
         email: String,
-        password: String,
+        password: String
     ) {
         viewModelScope.launch {
-            repository.register(fullName, userName, email, password).collect{
+            repository.register(fullName, userName, email, password).collect {
                 _registerResult.postValue(it)
             }
         }

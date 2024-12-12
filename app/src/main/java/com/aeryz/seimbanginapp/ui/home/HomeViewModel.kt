@@ -90,7 +90,7 @@ class HomeViewModel(
 
     fun getAdviseFromAI() {
         viewModelScope.launch(Dispatchers.IO) {
-            transactionRepository.getAdvice().collect{
+            transactionRepository.getAdvice().collect {
                 _aiAdvisor.postValue(it)
             }
         }
@@ -98,10 +98,9 @@ class HomeViewModel(
 
     fun getAdviseFromDb() {
         viewModelScope.launch(Dispatchers.IO) {
-            userPreferenceDataSource.getAdvise().collect{
+            userPreferenceDataSource.getAdvise().collect {
                 _localAdvisor.postValue(it)
             }
         }
     }
-
 }

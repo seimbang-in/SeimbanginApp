@@ -5,6 +5,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("com.google.devtools.ksp")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 android {
@@ -26,14 +27,14 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
     flavorDimensions += "env"
     productFlavors {
         create("production") {
-            buildConfigField("String", "BASE_URl", "\"https://seimbangin.vercel.app/\"")
+            buildConfigField("String", "BASE_URl", "\"https://seimbangin-api-175982326551.asia-southeast2.run.app/\"")
         }
         create("integration") {
             buildConfigField("String", "BASE_URl", "\"https://seimbangin.vercel.app/\"")
@@ -54,7 +55,21 @@ android {
         buildConfig = true
     }
 }
-
+ktlint {
+    android.set(false)
+    ignoreFailures.set(true)
+    reporters {
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML)
+    }
+    kotlinScriptAdditionalPaths {
+        include(fileTree("scripts/"))
+    }
+    filter {
+        exclude("**/generated/**")
+        include("**/kotlin/**")
+    }
+}
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -89,8 +104,8 @@ dependencies {
     implementation(libs.coil)
     // FancyToast
     implementation(libs.fancytoast)
-    //uCrop
-    implementation (libs.ucrop)
+    // uCrop
+    implementation(libs.ucrop)
     // Google AI client SDK for Android
     implementation(libs.generativeai)
     // room database

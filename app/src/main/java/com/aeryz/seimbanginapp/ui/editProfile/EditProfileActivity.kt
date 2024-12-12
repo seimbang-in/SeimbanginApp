@@ -18,10 +18,10 @@ import coil.transform.CircleCropTransformation
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.data.network.model.profile.ProfileData
 import com.aeryz.seimbanginapp.databinding.ActivityEditProfileBinding
+import com.aeryz.seimbanginapp.utils.customPopupDialog
 import com.aeryz.seimbanginapp.utils.exception.ApiException
 import com.aeryz.seimbanginapp.utils.proceedWhen
 import com.aeryz.seimbanginapp.utils.uriToFile
-import com.shashank.sony.fancytoastlib.FancyToast
 import com.yalantis.ucrop.UCrop
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -47,7 +47,6 @@ class EditProfileActivity : AppCompatActivity() {
         } else {
             Log.d("Photo picker", "No media selected")
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,7 +93,7 @@ class EditProfileActivity : AppCompatActivity() {
             editMenuItem?.icon = ContextCompat.getDrawable(this, R.drawable.ic_edit_off_24)
             binding.etFullName.isEnabled = true
             binding.ivEditPhoto.isVisible = true
-            binding.tvUploadPhoto.isVisible = true
+            binding.tvUploadPhoto.isVisible = false
             binding.btnUpdate.isEnabled = true
         } else {
             editMenuItem?.icon = ContextCompat.getDrawable(this, R.drawable.ic_edit_on_24)
@@ -126,6 +125,7 @@ class EditProfileActivity : AppCompatActivity() {
             resultUri?.let {
                 viewModel.currentImageUri = it
                 showImage()
+                binding.tvUploadPhoto.isVisible = true
             }
         } else if (resultCode == UCrop.RESULT_ERROR) {
             val cropError = UCrop.getError(data!!)
@@ -191,16 +191,16 @@ class EditProfileActivity : AppCompatActivity() {
                 doOnSuccess = {
                     binding.pbLoading.isVisible = false
                     binding.btnUpdate.isVisible = true
-                    FancyToast.makeText(
-                        this,
-                        getString(R.string.text_update_profile_success),
-                        FancyToast.LENGTH_LONG,
-                        FancyToast.SUCCESS,
-                        false
-                    ).show()
-                    getProfileData()
-                    isEditMode = false
-                    updateEditMode()
+                    customPopupDialog(
+                        context = this,
+                        type = 1,
+                        successMessage = getString(R.string.text_update_profile_success),
+                        errorMessage = null
+                    ) {
+                        getProfileData()
+                        isEditMode = false
+                        updateEditMode()
+                    }
                 },
                 doOnLoading = {
                     binding.pbLoading.isVisible = true
@@ -210,13 +210,12 @@ class EditProfileActivity : AppCompatActivity() {
                     binding.pbLoading.isVisible = false
                     binding.btnUpdate.isVisible = true
                     if (it.exception is ApiException) {
-                        FancyToast.makeText(
-                            this,
-                            it.exception.getParsedError()?.message,
-                            FancyToast.LENGTH_LONG,
-                            FancyToast.ERROR,
-                            false
-                        ).show()
+                        customPopupDialog(
+                            context = this,
+                            type = 0,
+                            successMessage = null,
+                            errorMessage = it.exception.getParsedError()?.message
+                        )
                     }
                 }
             )
@@ -229,16 +228,16 @@ class EditProfileActivity : AppCompatActivity() {
                 doOnSuccess = {
                     binding.pbUploadLoading.isVisible = false
                     binding.tvUploadPhoto.isVisible = true
-                    FancyToast.makeText(
-                        this,
-                        getString(R.string.text_update_profile_image_success),
-                        FancyToast.LENGTH_LONG,
-                        FancyToast.SUCCESS,
-                        false
-                    ).show()
-                    getProfileData()
-                    isEditMode = false
-                    updateEditMode()
+                    customPopupDialog(
+                        context = this,
+                        type = 1,
+                        successMessage = getString(R.string.text_update_profile_image_success),
+                        errorMessage = null
+                    ) {
+                        getProfileData()
+                        isEditMode = false
+                        updateEditMode()
+                    }
                 },
                 doOnLoading = {
                     binding.pbUploadLoading.isVisible = true
@@ -248,13 +247,12 @@ class EditProfileActivity : AppCompatActivity() {
                     binding.pbUploadLoading.isVisible = false
                     binding.tvUploadPhoto.isVisible = true
                     if (it.exception is ApiException) {
-                        FancyToast.makeText(
-                            this,
-                            it.exception.getParsedError()?.message,
-                            FancyToast.LENGTH_LONG,
-                            FancyToast.ERROR,
-                            false
-                        ).show()
+                        customPopupDialog(
+                            context = this,
+                            type = 0,
+                            successMessage = null,
+                            errorMessage = it.exception.getParsedError()?.message
+                        )
                     }
                 }
             )

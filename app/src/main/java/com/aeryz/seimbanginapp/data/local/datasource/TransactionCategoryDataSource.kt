@@ -5,8 +5,9 @@ import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.model.TransactionCategory
 
 class TransactionCategoryDataSource(private val context: Context) {
-    fun getCategories() : List<TransactionCategory> {
+    fun getCategories(): List<TransactionCategory> {
         return listOf(
+            TransactionCategory("Category", "category", R.drawable.ic_question_mark_24),
             TransactionCategory(context.getString(R.string.text_food), "food", R.drawable.ic_food_24),
             TransactionCategory(context.getString(R.string.text_transportation), "transportation", R.drawable.ic_transportation_24),
             TransactionCategory(context.getString(R.string.text_utilities), "utilities", R.drawable.ic_utilities_24),

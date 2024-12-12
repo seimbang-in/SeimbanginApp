@@ -24,7 +24,7 @@ class CreateTransactionViewModel(private val repository: TransactionRepository) 
     ) {
         viewModelScope.launch {
             val request = CreateTransactionRequest(type, name, items)
-            repository.createTransaction(request).collect{
+            repository.createTransaction(request).collect {
                 _createTransactionResult.postValue(it)
             }
         }
