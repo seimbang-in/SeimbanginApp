@@ -1,30 +1,30 @@
 package com.aeryz.seimbanginapp.data.local.datasource
 
+import android.content.Context
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.model.IntroSliderItem
 
 interface IntroPageDataSource {
-    fun getIntroPageData(): List<IntroSliderItem>
+    fun getIntroPageData(context: Context): List<IntroSliderItem>
 }
 
-class IntroPageDataSourceImpl() : IntroPageDataSource {
-    override fun getIntroPageData(): List<IntroSliderItem> {
-        return listOf(
+class IntroPageDataSourceImpl : IntroPageDataSource {
+    override fun getIntroPageData(context: Context): List<IntroSliderItem> =
+        listOf(
             IntroSliderItem(
                 R.drawable.image_onboard1,
-                "Track Your Finances, Effortlessly!",
-                "Simple and intuitive design makes managing your money stress-free. Perfect for everyone!"
+                context.getString(R.string.text_title_onboarding_1),
+                context.getString(R.string.text_desc_onboarding_1),
             ),
             IntroSliderItem(
                 R.drawable.image_onboard2,
-                "Automate Your Tracking!",
-                "Simply scan your purchase receipts, and we’ll handle the rest. Fast, accurate, and hassle-free!"
+                context.getString(R.string.text_title_onboarding_2),
+                context.getString(R.string.text_desc_onboarding_2),
             ),
             IntroSliderItem(
                 R.drawable.image_onboard3,
-                "Know Where Your Money Goes!",
-                "Easily see your income, expenses, and financial trends in one place. Stay in control of your budget!"
-            )
+                context.getString(R.string.text_title_onboarding_3),
+                context.getString(R.string.text_desc_onboarding_3),
+            ),
         )
-    }
 }

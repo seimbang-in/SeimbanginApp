@@ -144,4 +144,12 @@
     <string name="text_email_username">Email / Username</string>
     <string name="text_welcome_back">Selamat datang kembali</string>
     <string name="text_welcome_let_s_get_you_started">Selamat datang! Mari kita mulai.</string>
+    <string name="text_title_onboarding_1">Lacak Keuangan Anda dengan Mudah!</string>
+    <string name="text_title_onboarding_2">Otomatiskan Pelacakan Pengeluaran Anda!</string>
+    <string name="text_title_onboarding_3">Pantau Keuangan Anda Secara Detail!</string>
+    <string name="text_desc_onboarding_1">Desain sederhana dan intuitif membuat pengelolaan keuangan Anda jadi lebih mudah. Cocok untuk semua orang!</string>
+    <string name="text_desc_onboarding_3">Lihat pendapatan, pengeluaran, dan tren keuangan Anda dalam satu tampilan. Kontrol anggaran Anda dengan mudah!</string>
+    <string name="text_desc_onboarding_2">Pindai tanda terima belanja Anda, kami urus sisanya. Cepat, akurat, dan tanpa ribet!</string>
+    <string name="text_outcome_chart">Grafik Pengeluaran</string>
+    <string name="text_income_chart">Grafik Pendapatan</string>
 </resources>

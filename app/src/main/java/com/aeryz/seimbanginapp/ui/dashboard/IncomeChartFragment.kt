@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aeryz.seimbanginapp.R
 import com.aeryz.seimbanginapp.data.local.database.entity.TransactionEntity
 import com.aeryz.seimbanginapp.data.local.database.entity.toTransactionItemList
+import com.aeryz.seimbanginapp.data.local.datasource.TransactionCategoryDataSource
 import com.aeryz.seimbanginapp.databinding.FragmentIncomeChartBinding
 import com.aeryz.seimbanginapp.model.TransactionItem
 import com.aeryz.seimbanginapp.ui.transaction.transactionDetail.TransactionDetailActivity
@@ -54,27 +55,38 @@ class IncomeChartFragment : Fragment() {
         viewModel.getTransactionByType(0).observe(viewLifecycleOwner) { result ->
             result.proceedWhen(
                 doOnSuccess = {
-                    binding.rvTransactionList.isVisible = true
-                    binding.tvTransactionListError.isVisible = false
+                    showLoading(false)
                     val data = it.payload
                     setupPieChart(data)
                     data?.toTransactionItemList()?.let { it1 -> setupRecyclerView(it1) }
                 },
                 doOnError = {
+                    showLoading(false)
                     binding.tvIncomeAmount.text = formatAmount("0.0", 0)
-                    binding.rvTransactionList.isVisible = false
-                    binding.tvTransactionListError.isVisible = true
                     binding.tvTransactionListError.text = it.exception?.localizedMessage.orEmpty()
                 },
                 doOnEmpty = {
+                    showLoading(false)
                     binding.tvIncomeAmount.text = formatAmount("0.0", 0)
-                    binding.rvTransactionList.isVisible = false
-                    binding.tvTransactionListError.isVisible = true
                     binding.tvTransactionListError.text =
                         getString(R.string.text_transaction_still_empty)
+                },
+                doOnLoading = {
+                    showLoading(true)
                 }
             )
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.pbLoading.isVisible = isLoading
+        binding.tvTotalIncome.isVisible = !isLoading
+        binding.tvIncomeAmount.isVisible = !isLoading
+        binding.pieChart.isVisible = !isLoading
+        binding.tvHistoryTransaction.isVisible = !isLoading
+        binding.tvSeeAll.isVisible = !isLoading
+        binding.rvTransactionList.isVisible = !isLoading
+        binding.tvTransactionListError.isVisible = !isLoading
     }
 
     private fun setupPieChart(listEntity: List<TransactionEntity>?) {
@@ -89,7 +101,10 @@ class IncomeChartFragment : Fragment() {
         for ((category, amount) in categoryAmountMap) {
             if (totalAmount > 0) {
                 val percentage = (amount / totalAmount * 100).toFloat()
-                entries.add(PieEntry(percentage, category))
+                val categoriesData = TransactionCategoryDataSource(requireContext()).getCategories()
+                val sameItem = categoriesData.find { it.value == category }
+                val categoryName = sameItem?.name
+                entries.add(PieEntry(percentage, categoryName))
             }
         }
 
@@ -124,7 +139,7 @@ class IncomeChartFragment : Fragment() {
             setTransparentCircleAlpha(110)
             transparentCircleRadius = 40f
             setDrawCenterText(true)
-            centerText = "Income Chart"
+            centerText = context.getString(R.string.text_income_chart)
             setEntryLabelColor(Color.WHITE)
             setEntryLabelTextSize(12f)
             animateY(1400, Easing.EaseInOutQuad)
